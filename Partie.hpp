@@ -12,15 +12,22 @@
 #include <iostream>
 #include <vector>
 #include "Player.hpp"
+#include <fstream>
+#include "Cuirace.hpp"
+#include "SousMarin.hpp"
+#include "Destroyer.hpp"
 
 
 class Partie
 {
 public:
     Partie();
+    ~Partie();
+    void sauvegarde(Player &ordi, Player &user);
+    
 protected:
-    Player ordi;
-    Player user;
+    Player m_ordi;
+    Player m_user;
 };
 
 #endif /* Partie_hpp */

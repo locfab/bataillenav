@@ -11,12 +11,23 @@
 
 #include <iostream>
 
+
+
+
 class Boat
 {
 public:
     Boat();
+    Boat(std::pair<int, int> coord, char type, bool m_vertical);
+    int envergure();
+    std::pair<int, int> getCoord();
+    bool getVertical();
+    void printBoat();
+    char getType();
 protected:
-    
+    std::pair<int, int> m_coord;
+    char m_type;
+    bool m_vertical;
 };
 
 #endif /* Boat_hpp */

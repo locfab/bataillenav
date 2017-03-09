@@ -24,7 +24,6 @@ int main(int argc, const char * argv[]) {
     }while(choix < 1 || choix > 4);
     
     std::cout << choix << std::endl;
-    char a[15][15];
     if(choix == 1)
     {
         Partie partie;
