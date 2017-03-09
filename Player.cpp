@@ -14,25 +14,23 @@ Player::Player()
 }
 void Player::printGrill(char grille[15][15])
 {
-    std::cout << "    ";
+    std::cout << " ¦";
     for(int i(0); i<15; i++)
     {
         std::cout << std::setw(2) << std::setfill('0') << i;
-        std::cout << " |  ";
+        std::cout << "¦";
     }
     std::cout << std::endl;
-    std::cout << "  -----------------------------------------------------------------------------------------"<<  std::endl;
-    std::cout << std::endl;
+    std::cout << " ¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦"<<  std::endl;
     for(int i(0); i<15; i++)
     {
-        std::cout << (char)(i+'a') << "| ";
+        std::cout << (char)(i+'a') << "¦";
         
         for(int j(0); j<15; j++)
         {
-            std::cout << " x " << " | ";
+            std::cout << "██" << "¦";
         }
         std::cout << std::endl;
-        std::cout << "  -----------------------------------------------------------------------------------------"<<  std::endl;
-        std::cout << std::endl;
+        std::cout << " ¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦"<<  std::endl;
     }
 }
