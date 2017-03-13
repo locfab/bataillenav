@@ -49,6 +49,30 @@ void Boat::setCoord(std::pair<int, int> coord)
 {
     setCoord(coord.first, coord.second);
 }
+
+void Boat::setVertical()
+{
+    int x =  this->getCoord().first;
+    int y =  this->getCoord().second;
+    
+    if(x +envergure() < 15 && x - envergure() >= 0 && y +envergure() < 15 && y - envergure() >= 0)
+    {
+        if(this->getVertical())
+        {
+            this->m_vertical = false;
+        }
+        else
+        {
+            this->m_vertical = true;
+        }
+    }
+    else
+    {
+        std::cout << "Impossible, DEPASSEMENT" << std::endl;
+    }
+}
+
+
 bool Boat::getVertical()
 {
     return m_vertical;

@@ -32,11 +32,11 @@ void Player::play()
     
     if(choix == 1)
     {
-        moveBoat(0);
+        moveBoat(4);
     }
     else if(choix == 2)
     {
-        //turnBoat();
+        turnBoat(4);
     }
     else if(choix == 3)
     {
@@ -49,6 +49,19 @@ void Player::play()
         //shotBoat((int)(lettre-'a'), nombre);
     }
     printGrill();
+}
+
+void Player::turnBoat(int y)
+{
+    Boat * b = m_vectBoat[y];
+    if(!toucher(std::make_pair(b->getCoord().first, b->getCoord().second), !b->getVertical(), b->envergure(), y))
+    {
+        b->setVertical();
+    }
+    else
+    {
+        std::cout << "Bateau déjà present" << std::endl;
+    }
 }
 
 void Player::moveBoat(int y)

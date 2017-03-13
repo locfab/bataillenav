@@ -34,7 +34,7 @@ public:
     void playIA();
     void moveBoat(int y);
     void shotBoat(int x, int y);
-    void turnBoat();
+    void turnBoat(int y);
     
 protected:
     std::vector<Boat*> m_vectBoat;
