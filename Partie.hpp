@@ -24,6 +24,9 @@ public:
     Partie();
     ~Partie();
     void sauvegarde(Player &ordi, Player &user);
+    void getInfoSauv(Player $ordi, Player $user);
+    bool victoire();
+    bool boucleDeJeu(bool begin);
     
 protected:
     Player m_ordi;

@@ -21,6 +21,8 @@ public:
     Boat(std::pair<int, int> coord, char type, bool m_vertical);
     int envergure();
     std::pair<int, int> getCoord();
+    void setCoord(int x, int y);
+    void setCoord(std::pair<int, int> coord);
     bool getVertical();
     void printBoat();
     char getType();

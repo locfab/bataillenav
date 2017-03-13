@@ -11,10 +11,27 @@
 
 Partie::Partie()
 {
+    boucleDeJeu(true);
 }
+
 Partie::~Partie()
 {
 }
+
+bool Partie::boucleDeJeu(bool begin)
+{
+    while(!victoire())
+    {
+        //this->m_ordi.playIA();
+        this->m_user.play();
+    }
+    return false;
+}
+bool Partie::victoire()
+{
+    return false;
+}
+
 
 void Partie::sauvegarde(Player &ordi, Player &user)
 {
@@ -60,4 +77,8 @@ void Partie::sauvegarde(Player &ordi, Player &user)
     {
         std::cout << "ERREUR: Impossible d'ouvrir le fichier." << std::endl;
     }
+}
+void Partie::getInfoSauv(Player $ordi, Player $user)
+{
+    
 }

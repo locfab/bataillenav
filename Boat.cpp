@@ -21,13 +21,13 @@ Boat::Boat(std::pair<int, int> coord, char type, bool vertical)
 
 int Boat::envergure()
 {
-    if(this->m_type == 'C')
+    if(this->m_type == '*')
         return 3;
     if(this->m_type == 's')
         return 0;
-    if(this->m_type == 'd')
+    if(this->m_type == '+')
         return 1;
-    if(this->m_type == 'c')
+    if(this->m_type == 'o')
         return 2;
     std::cout << this->m_type << "  ERREUR!!! PAS DE REFERENCE BATEAU" << std::endl;
     return -1;
@@ -36,6 +36,18 @@ int Boat::envergure()
 std::pair<int, int> Boat::getCoord()
 {
     return m_coord;
+}
+void Boat::setCoord(int x, int y)
+{
+    if(x<15 && x>=0 && y<15 && y>=0)
+    {
+        m_coord.first = x;
+        m_coord.second = y;
+    }
+}
+void Boat::setCoord(std::pair<int, int> coord)
+{
+    setCoord(coord.first, coord.second);
 }
 bool Boat::getVertical()
 {

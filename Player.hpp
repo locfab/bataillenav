@@ -29,6 +29,13 @@ public:
     void aleaGrille1();
     void setGrille1();
     bool toucher(std::pair<int, int> coord, bool vectical, int envergure);
+    bool toucher(std::pair<int, int> coord, bool vectical, int envergure, int withoutIndice);
+    void play();
+    void playIA();
+    void moveBoat(int y);
+    void shotBoat(int x, int y);
+    void turnBoat();
+    
 protected:
     std::vector<Boat*> m_vectBoat;
     std::vector<std::vector<char>> m_grille1;
