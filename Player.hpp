@@ -23,8 +23,8 @@ class Player
 public:
     Player();
     void printGrill();
-    std::vector<std::vector<char>> getGrille1();
-    std::vector<std::vector<char>> getGrille2();
+    std::vector<std::vector<char> > getGrille1();
+    std::vector<std::vector<char> > getGrille2();
     std::vector<Boat*> getVectBoat();
     void aleaGrille1();
     void setGrille1();
