@@ -23,7 +23,7 @@ bool Partie::boucleDeJeu(bool begin)
     while(!victoire())
     {
         //this->m_ordi.playIA();
-        this->m_user.play();
+        this->m_user.play(m_ordi);
     }
     return false;
 }

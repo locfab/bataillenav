@@ -16,6 +16,7 @@ Boat::Boat(std::pair<int, int> coord, char type, bool vertical)
     m_coord = coord;
     m_type = type;
     m_vertical = vertical;
+    m_touche = false;
     
 }
 
@@ -72,6 +73,24 @@ void Boat::setVertical()
     }
 }
 
+void Boat::setTouche()
+{
+    this->m_touche = true;
+}
+
+void Boat::setPointsTouches(int x, int y)
+{
+    setPointsTouches(std::make_pair(x, y));
+}
+void Boat::setPointsTouches(std::pair<int, int> coord)
+{
+    m_pointsTouches.push_back(coord);
+}
+
+std::vector<std::pair<int, int>> Boat::getPointsTouches()
+{
+    return m_pointsTouches;
+}
 
 bool Boat::getVertical()
 {
@@ -85,4 +104,5 @@ char Boat::getType()
 {
     return m_type;
 }
+
 

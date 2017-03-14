@@ -14,11 +14,12 @@ Player::Player()
     for(int i(0); i< 15; i++)
     {
         m_grille1.push_back(temp);
+        m_grille2.push_back(temp);
     }
     this->aleaGrille1();
 }
 
-void Player::play()
+void Player::play(Player adversaire)
 {
     std::cout << "1 - choix" << std::endl;
     std::cout << "2 - choix" << std::endl;
@@ -45,10 +46,14 @@ void Player::play()
         do{
             std::cin >> lettre;
             std::cin >> nombre;
-        }while(lettre < 'a' || lettre > 'o' || nombre < 1 || nombre > 14);
-        //shotBoat((int)(lettre-'a'), nombre);
+        }while(lettre < 'a' || lettre > 'o' || nombre < 0 || nombre > 14);
+        shotBoat((int)(lettre-'a'), nombre, adversaire);
     }
-    printGrill();
+    printGrill(adversaire);
+}
+void Player::shotBoat(int x, int y, Player &adversaire)
+{
+    attaque(std::make_pair(x, y), adversaire);
 }
 
 void Player::turnBoat(int y)
@@ -89,9 +94,9 @@ void Player::moveBoat(int y)
         //std::cout << b.first << " + " << dir.first << " , " << b.second << " + " <<  dir.second << ", ver:  " << m_vectBoat[y]->getVertical() << ", env: " << m_vectBoat[y]->envergure() << ", indice: " <<  y << std::endl;
     }while(toucher(std::make_pair(b.first + dir.first, b.second + dir.second), m_vectBoat[y]->getVertical(), m_vectBoat[y]->envergure(), y));
     
-    std::cout << m_vectBoat[y]->getCoord().first << " - " << m_vectBoat[y]->getCoord().second << std::endl;
+    //std::cout << m_vectBoat[y]->getCoord().first << " - " << m_vectBoat[y]->getCoord().second << std::endl;
     m_vectBoat[y]->setCoord(b.first + dir.first, b.second + dir.second);
-    std::cout << m_vectBoat[y]->getCoord().first << " - " << m_vectBoat[y]->getCoord().second << std::endl;
+    //std::cout << m_vectBoat[y]->getCoord().first << " - " << m_vectBoat[y]->getCoord().second << std::endl;
 
 }
 
@@ -111,21 +116,30 @@ std::vector<Boat*> Player::getVectBoat()
     return m_vectBoat;
 }
 
-void Player::printGrill()
+void Player::printGrill(Player adversaire)
 {
     setGrille1();
+    setGrille2(adversaire);
+    std::string espace = "          ";
     std::cout << " ¦";
     for(int i(0); i<15; i++)
     {
         std::cout << std::setw(2) << std::setfill('0') << i;
         std::cout << "¦";
     }
+    std::cout << espace + " ¦";
+    for(int i(0); i<15; i++)
+    {
+        std::cout << std::setw(2) << std::setfill('0') << i;
+        std::cout << "¦";
+    }
     std::cout << std::endl;
+    std::cout << " ¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦";
+    std::cout << espace;
     std::cout << " ¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦"<<  std::endl;
     for(int i(0); i<15; i++)
     {
         std::cout << (char)(i+'a') << "¦";
-        
         for(int j(0); j<15; j++)
         {
             //std::cout << "██" << "¦";
@@ -134,7 +148,21 @@ void Player::printGrill()
             else
                 std::cout << " " << " " << "¦";
         }
+        std::cout << espace;
+        std::cout << (char)(i+'a') << "¦";
+        for(int j(0); j<15; j++)
+            {
+            //std::cout << "██" << "¦";
+            if(m_grille2[i][j] == 't')
+                std::cout << "█" << "█" << "¦";
+            else if(m_grille2[i][j] != '?')
+                std::cout << m_grille2[i][j] << m_grille2[i][j] << "¦";
+            else
+                std::cout << " " << " " << "¦";
+        }
         std::cout << std::endl;
+        std::cout << " ¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦";
+        std::cout << espace;
         std::cout << " ¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦"<<  std::endl;
     }
 }
@@ -164,6 +192,20 @@ void Player::setGrille1()
             {
                 m_grille1[m_vectBoat[j]->getCoord().first][i] = m_vectBoat[j]->getType();
             }
+        }
+    }
+}
+
+void Player::setGrille2(Player adversaire)
+{
+    std::vector <Boat*> boatsAdv = adversaire.getVectBoat();
+    for(int i(0); i< boatsAdv.size(); i++)
+    {
+        for(int j(0); j< boatsAdv[i]->getPointsTouches().size(); i++)
+        {
+            std::pair<int, int> coordTouche = boatsAdv[i]->getPointsTouches()[j];
+            m_grille2[coordTouche.first][coordTouche.second] = 't';
+            
         }
     }
 }
@@ -216,78 +258,13 @@ void Player::aleaGrille1()
             }
         }
     }
-    this->setGrille1();
-    this->printGrill();
-    
     for(int i(0); i<m_vectBoat.size(); i++)
     {
         m_vectBoat[i]->printBoat();
     }
 }
 
-bool Player::toucher(std::pair<int, int> coord, bool vertical, int envergure)
-{
-    if(vertical)
-    {
-        for(int i(coord.first - envergure); i <  coord.first + envergure + 1; i++)
-        {
-            for(int j(0); j< m_vectBoat.size(); j++)
-            {
-                if(m_vectBoat[j]->getVertical() )
-                {
-                    int deb = m_vectBoat[j]->getCoord().first - m_vectBoat[j]->envergure();
-                    int fin = m_vectBoat[j]->getCoord().first + m_vectBoat[j]->envergure();
-                    for(int k(deb); k<fin+1; k++)
-                    {
-                        if(i==k && coord.second == m_vectBoat[j]->getCoord().second)
-                            return true;
-                    }
-                }
-                else
-                {
-                    int deb = m_vectBoat[j]->getCoord().second - m_vectBoat[j]->envergure();
-                    int fin = m_vectBoat[j]->getCoord().second + m_vectBoat[j]->envergure();
-                    for(int k(deb); k<fin+1; k++)
-                    {
-                        if(i == m_vectBoat[j]->getCoord().first && k == coord.second)
-                            return true;
-                    }
-                }
-            }
-        }
-    }
-    else
-    {
-        for(int i(coord.second - envergure); i <  coord.second + envergure + 1; i++)
-        {
-            for(int j(0); j< m_vectBoat.size(); j++)
-            {
-                if(m_vectBoat[j]->getVertical() )
-                {
-                    int deb = m_vectBoat[j]->getCoord().first - m_vectBoat[j]->envergure();
-                    int fin = m_vectBoat[j]->getCoord().first + m_vectBoat[j]->envergure();
-                    for(int k(deb); k<fin+1; k++)
-                    {
-                        if(i == m_vectBoat[j]->getCoord().second && coord.first == k)
-                            return true;
-                    }
-                }
-                else
-                {
-                    int deb = m_vectBoat[j]->getCoord().second - m_vectBoat[j]->envergure();
-                    int fin = m_vectBoat[j]->getCoord().second + m_vectBoat[j]->envergure();
-                    for(int k(deb); k<fin+1; k++)
-                    {
-                        if(i==k && coord.first == m_vectBoat[j]->getCoord().first)
-                            return true;
-                    }
-                }
-            }
-        }
-    }
-    
-    return false;
-}
+
 bool Player::toucher(std::pair<int, int> coord, bool vertical, int envergure, int sansIndiceBoat)
 {
     if(vertical)
@@ -371,3 +348,38 @@ bool Player::toucher(std::pair<int, int> coord, bool vertical, int envergure, in
     return false;
 }
 
+void Player::attaque(std::pair<int, int> coord, Player &adversaire)
+{
+    for(int j(0); j< m_vectBoat.size(); j++)
+    {
+        if(m_vectBoat[j]->getVertical() )
+        {
+            int deb = m_vectBoat[j]->getCoord().first - m_vectBoat[j]->envergure();
+            int fin = m_vectBoat[j]->getCoord().first + m_vectBoat[j]->envergure();
+            for(int k(deb); k<fin+1; k++)
+            {
+                if(coord.first == k && coord.second == m_vectBoat[j]->getCoord().second)
+                {
+                    adversaire.m_vectBoat[j]->setTouche();
+                    adversaire.m_vectBoat[j]->setPointsTouches(coord);
+                    return;
+                }
+                
+            }
+        }
+        else
+        {
+            int deb = m_vectBoat[j]->getCoord().second - m_vectBoat[j]->envergure();
+            int fin = m_vectBoat[j]->getCoord().second + m_vectBoat[j]->envergure();
+            for(int k(deb); k<fin+1; k++)
+            {
+                if(coord.first == m_vectBoat[j]->getCoord().first && k == coord.second)
+                {
+                    adversaire.m_vectBoat[j]->setTouche();
+                    adversaire.m_vectBoat[j]->setPointsTouches(coord);
+                    return;
+                }
+            }
+        }
+    }
+}

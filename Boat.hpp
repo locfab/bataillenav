@@ -10,6 +10,7 @@
 #define Boat_hpp
 
 #include <iostream>
+#include <vector>
 
 
 
@@ -25,12 +26,18 @@ public:
     void setCoord(std::pair<int, int> coord);
     bool getVertical();
     void setVertical();
+    std::vector<std::pair<int, int>> getPointsTouches();
+    void setPointsTouches(int x, int y);
+    void setPointsTouches(std::pair<int, int> coord);
+    void setTouche();
     void printBoat();
     char getType();
 protected:
     std::pair<int, int> m_coord;
     char m_type;
     bool m_vertical;
+    bool m_touche;
+    std::vector<std::pair<int, int>> m_pointsTouches;
 };
 
 #endif /* Boat_hpp */
