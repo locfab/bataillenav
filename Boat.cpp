@@ -34,6 +34,13 @@ int Boat::envergure()
     return -1;
 }
 
+
+void Boat::shotBoat(int x, int y, std::vector<Boat*> vectBoat)
+{
+    attaque(std::make_pair(x, y), vectBoat);
+}
+
+
 std::pair<int, int> Boat::getCoord()
 {
     return m_coord;
@@ -105,4 +112,38 @@ char Boat::getType()
     return m_type;
 }
 
-
+void Boat::attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoat)
+{
+    for(int j(0); j< vectBoat.size(); j++)
+    {
+        if(vectBoat[j]->getVertical() )
+        {
+            int deb = vectBoat[j]->getCoord().first - vectBoat[j]->envergure();
+            int fin = vectBoat[j]->getCoord().first + vectBoat[j]->envergure();
+            for(int k(deb); k<fin+1; k++)
+            {
+                if(coord.first == k && coord.second == vectBoat[j]->getCoord().second)
+                {
+                    vectBoat[j]->setTouche();
+                    vectBoat[j]->setPointsTouches(coord);
+                    return;
+                }
+                
+            }
+        }
+        else
+        {
+            int deb = vectBoat[j]->getCoord().second - vectBoat[j]->envergure();
+            int fin = vectBoat[j]->getCoord().second + vectBoat[j]->envergure();
+            for(int k(deb); k<fin+1; k++)
+            {
+                if(coord.first == vectBoat[j]->getCoord().first && k == coord.second)
+                {
+                    vectBoat[j]->setTouche();
+                    vectBoat[j]->setPointsTouches(coord);
+                    return;
+                }
+            }
+        }
+    }
+}

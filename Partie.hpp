@@ -13,9 +13,6 @@
 #include <vector>
 #include "Player.hpp"
 #include <fstream>
-#include "Cuirace.hpp"
-#include "SousMarin.hpp"
-#include "Destroyer.hpp"
 
 
 class Partie

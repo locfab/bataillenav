@@ -22,7 +22,7 @@ class Player
 {
 public:
     Player();
-    void printGrill(Player adversaire);
+    void printGrill(Player &adversaire);
     std::vector<std::vector<char> > getGrille1();
     std::vector<std::vector<char> > getGrille2();
     std::vector<Boat*> getVectBoat();
@@ -31,11 +31,9 @@ public:
     void setGrille2(Player adversaire);
     //bool toucher(std::pair<int, int> coord, bool vectical, int envergure);
     bool toucher(std::pair<int, int> coord, bool vectical, int envergure, int withoutIndice = -1);
-    void attaque(std::pair<int, int> coord, Player &adversaire);
     void play(Player adversaire);
     void playIA();
     void moveBoat(int y);
-    void shotBoat(int x, int y, Player &adversaire);
     void turnBoat(int y);
     
 protected:

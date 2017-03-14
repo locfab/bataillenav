@@ -21,39 +21,52 @@ Player::Player()
 
 void Player::play(Player adversaire)
 {
-    std::cout << "1 - choix" << std::endl;
-    std::cout << "2 - choix" << std::endl;
-    std::cout << "3 - choix" << std::endl;
-    
     int choix(-1);
-    std::cout << "faite un choix compris entre 1 et 4" << std::endl;
-    do{
+    do
+    {
+        std::cout << "1 - choix, deplacement" << std::endl;
+        std::cout << "2 - choix, rotation" << std::endl;
+        std::cout << "3 - choix, attaque" << std::endl;
+        std::cout << "faite un choix compris entre 1 et 3" << std::endl;
+        
         std::cin >> choix;
     }while(choix < 1 || choix > 3);
     
     if(choix == 1)
     {
-        moveBoat(4);
+        do
+        {
+            std::cout << "Choisir de bouger un bateau parmi les " << getVectBoat().size() << std::endl;
+            
+            std::cin >> choix;
+        }while(choix < 0 || choix > getVectBoat().size());
+        moveBoat(choix);
     }
     else if(choix == 2)
     {
-        turnBoat(4);
+        do
+        {
+            std::cout << "Choisir de bouger un bateau parmi les " << getVectBoat().size() << std::endl;
+            
+            std::cin >> choix;
+        }while(choix < 0 || choix > getVectBoat().size());
+        turnBoat(choix);
     }
     else if(choix == 3)
     {
         char lettre;
         int nombre;
+        int boat;
         do{
             std::cin >> lettre;
             std::cin >> nombre;
+            std::cin >> boat;
+            
         }while(lettre < 'a' || lettre > 'o' || nombre < 0 || nombre > 14);
-        shotBoat((int)(lettre-'a'), nombre, adversaire);
+        m_vectBoat[boat]->shotBoat((int)(lettre-'a'), nombre, adversaire.getVectBoat());
     }
+    
     printGrill(adversaire);
-}
-void Player::shotBoat(int x, int y, Player &adversaire)
-{
-    attaque(std::make_pair(x, y), adversaire);
 }
 
 void Player::turnBoat(int y)
@@ -116,7 +129,7 @@ std::vector<Boat*> Player::getVectBoat()
     return m_vectBoat;
 }
 
-void Player::printGrill(Player adversaire)
+void Player::printGrill(Player &adversaire)
 {
     setGrille1();
     setGrille2(adversaire);
@@ -258,10 +271,10 @@ void Player::aleaGrille1()
             }
         }
     }
-    for(int i(0); i<m_vectBoat.size(); i++)
+    /*for(int i(0); i<m_vectBoat.size(); i++)
     {
         m_vectBoat[i]->printBoat();
-    }
+    }*/
 }
 
 
@@ -346,40 +359,4 @@ bool Player::toucher(std::pair<int, int> coord, bool vertical, int envergure, in
         }
     }
     return false;
-}
-
-void Player::attaque(std::pair<int, int> coord, Player &adversaire)
-{
-    for(int j(0); j< m_vectBoat.size(); j++)
-    {
-        if(m_vectBoat[j]->getVertical() )
-        {
-            int deb = m_vectBoat[j]->getCoord().first - m_vectBoat[j]->envergure();
-            int fin = m_vectBoat[j]->getCoord().first + m_vectBoat[j]->envergure();
-            for(int k(deb); k<fin+1; k++)
-            {
-                if(coord.first == k && coord.second == m_vectBoat[j]->getCoord().second)
-                {
-                    adversaire.m_vectBoat[j]->setTouche();
-                    adversaire.m_vectBoat[j]->setPointsTouches(coord);
-                    return;
-                }
-                
-            }
-        }
-        else
-        {
-            int deb = m_vectBoat[j]->getCoord().second - m_vectBoat[j]->envergure();
-            int fin = m_vectBoat[j]->getCoord().second + m_vectBoat[j]->envergure();
-            for(int k(deb); k<fin+1; k++)
-            {
-                if(coord.first == m_vectBoat[j]->getCoord().first && k == coord.second)
-                {
-                    adversaire.m_vectBoat[j]->setTouche();
-                    adversaire.m_vectBoat[j]->setPointsTouches(coord);
-                    return;
-                }
-            }
-        }
-    }
 }

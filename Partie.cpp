@@ -22,7 +22,9 @@ bool Partie::boucleDeJeu(bool begin)
 {
     while(!victoire())
     {
-        //this->m_ordi.playIA();
+        m_ordi.printGrill(m_user);
+        this->m_ordi.play(m_user);
+        m_user.printGrill(m_ordi);
         this->m_user.play(m_ordi);
     }
     return false;

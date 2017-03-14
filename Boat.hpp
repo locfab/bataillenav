@@ -15,6 +15,7 @@
 
 
 
+
 class Boat
 {
 public:
@@ -32,6 +33,9 @@ public:
     void setTouche();
     void printBoat();
     char getType();
+    void shotBoat(int x, int y, std::vector<Boat*> vectBoat);
+    void attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoat);
+
 protected:
     std::pair<int, int> m_coord;
     char m_type;
