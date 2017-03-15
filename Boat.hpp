@@ -27,7 +27,7 @@ public:
     void setCoord(std::pair<int, int> coord);
     bool getVertical();
     void setVertical();
-    std::vector<std::pair<int, int>> getPointsTouches();
+    std::vector<std::pair<int, int> > getPointsTouches();
     void setPointsTouches(int x, int y);
     void setPointsTouches(std::pair<int, int> coord);
     void setTouche();
@@ -41,7 +41,7 @@ protected:
     char m_type;
     bool m_vertical;
     bool m_touche;
-    std::vector<std::pair<int, int>> m_pointsTouches;
+    std::vector<std::pair<int, int> > m_pointsTouches;
 };
 
 #endif /* Boat_hpp */

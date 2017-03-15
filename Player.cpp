@@ -7,6 +7,7 @@
 //
 
 #include "Player.hpp"
+#include <cstdlib>
 
 Player::Player()
 {
@@ -28,16 +29,16 @@ void Player::play(Player adversaire)
         std::cout << "2 - choix, rotation" << std::endl;
         std::cout << "3 - choix, attaque" << std::endl;
         std::cout << "faite un choix compris entre 1 et 3" << std::endl;
-        
+
         std::cin >> choix;
     }while(choix < 1 || choix > 3);
-    
+
     if(choix == 1)
     {
         do
         {
             std::cout << "Choisir de bouger un bateau parmi les " << getVectBoat().size() << std::endl;
-            
+
             std::cin >> choix;
         }while(choix < 0 || choix > getVectBoat().size());
         moveBoat(choix);
@@ -47,7 +48,7 @@ void Player::play(Player adversaire)
         do
         {
             std::cout << "Choisir de bouger un bateau parmi les " << getVectBoat().size() << std::endl;
-            
+
             std::cin >> choix;
         }while(choix < 0 || choix > getVectBoat().size());
         turnBoat(choix);
@@ -61,11 +62,11 @@ void Player::play(Player adversaire)
             std::cin >> lettre;
             std::cin >> nombre;
             std::cin >> boat;
-            
+
         }while(lettre < 'a' || lettre > 'o' || nombre < 0 || nombre > 14);
         m_vectBoat[boat]->shotBoat((int)(lettre-'a'), nombre, adversaire.getVectBoat());
     }
-    
+
     printGrill(adversaire);
 }
 
@@ -90,12 +91,12 @@ void Player::moveBoat(int y)
     do
     {
         char direction;
-        std::vector<std::pair<int, int>> allDir = { {1, 0}, {-1, 0}, {0, 1}, {0, -1} };
+        std::vector<std::pair<int, int> > allDir = { {1, 0}, {-1, 0}, {0, 1}, {0, -1} };
         do{
             std::cout << "choisir la direction avec 'h', 'b', 'g' ou 'd'" << std::endl;
             std::cin >> direction;
         }while(!(direction == 'h' || direction == 'b' || direction == 'g' || direction == 'd'));
-        
+
         if(direction == 'h')
             dir = allDir[1];
         else if(direction == 'b')
@@ -106,7 +107,7 @@ void Player::moveBoat(int y)
             dir = allDir[2];
         //std::cout << b.first << " + " << dir.first << " , " << b.second << " + " <<  dir.second << ", ver:  " << m_vectBoat[y]->getVertical() << ", env: " << m_vectBoat[y]->envergure() << ", indice: " <<  y << std::endl;
     }while(toucher(std::make_pair(b.first + dir.first, b.second + dir.second), m_vectBoat[y]->getVertical(), m_vectBoat[y]->envergure(), y));
-    
+
     //std::cout << m_vectBoat[y]->getCoord().first << " - " << m_vectBoat[y]->getCoord().second << std::endl;
     m_vectBoat[y]->setCoord(b.first + dir.first, b.second + dir.second);
     //std::cout << m_vectBoat[y]->getCoord().first << " - " << m_vectBoat[y]->getCoord().second << std::endl;
@@ -134,49 +135,49 @@ void Player::printGrill(Player &adversaire)
     setGrille1();
     setGrille2(adversaire);
     std::string espace = "          ";
-    std::cout << " ¦";
+    std::cout << " |";
     for(int i(0); i<15; i++)
     {
         std::cout << std::setw(2) << std::setfill('0') << i;
-        std::cout << "¦";
+        std::cout << "|";
     }
-    std::cout << espace + " ¦";
+    std::cout << espace + " |";
     for(int i(0); i<15; i++)
     {
         std::cout << std::setw(2) << std::setfill('0') << i;
-        std::cout << "¦";
+        std::cout << "|";
     }
     std::cout << std::endl;
-    std::cout << " ¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦";
+    std::cout << " |--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|";
     std::cout << espace;
-    std::cout << " ¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦"<<  std::endl;
+    std::cout << " |--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|"<<  std::endl;
     for(int i(0); i<15; i++)
     {
-        std::cout << (char)(i+'a') << "¦";
+        std::cout << (char)(i+'a') << "|";
         for(int j(0); j<15; j++)
         {
             //std::cout << "██" << "¦";
             if(m_grille1[i][j] != '?')
-                std::cout << m_grille1[i][j] << m_grille1[i][j] << "¦";
+                std::cout << m_grille1[i][j] << m_grille1[i][j] << "|";
             else
-                std::cout << " " << " " << "¦";
+                std::cout << " " << " " << "|";
         }
         std::cout << espace;
-        std::cout << (char)(i+'a') << "¦";
+        std::cout << (char)(i+'a') << "|";
         for(int j(0); j<15; j++)
             {
             //std::cout << "██" << "¦";
             if(m_grille2[i][j] == 't')
-                std::cout << "█" << "█" << "¦";
+                std::cout << "█" << "█" << "|";
             else if(m_grille2[i][j] != '?')
                 std::cout << m_grille2[i][j] << m_grille2[i][j] << "¦";
             else
-                std::cout << " " << " " << "¦";
+                std::cout << " " << " " << "|";
         }
         std::cout << std::endl;
-        std::cout << " ¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦";
+        std::cout << " |--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|";
         std::cout << espace;
-        std::cout << " ¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦--¦"<<  std::endl;
+        std::cout << " |--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|"<<  std::endl;
     }
 }
 
@@ -200,7 +201,7 @@ void Player::setGrille1()
         {
             int deb = m_vectBoat[j]->getCoord().second - m_vectBoat[j]->envergure();
             int fin = m_vectBoat[j]->getCoord().second + m_vectBoat[j]->envergure();
-            
+
             for(int i(deb); i <  fin + 1; i++)
             {
                 m_grille1[m_vectBoat[j]->getCoord().first][i] = m_vectBoat[j]->getType();
@@ -218,7 +219,7 @@ void Player::setGrille2(Player adversaire)
         {
             std::pair<int, int> coordTouche = boatsAdv[i]->getPointsTouches()[j];
             m_grille2[coordTouche.first][coordTouche.second] = 't';
-            
+
         }
     }
 }
@@ -250,9 +251,9 @@ void Player::aleaGrille1()
                     coord = std::make_pair(rand()%15, y);
                 }
             }while(toucher(coord, vertical, envergure)); //"objet[i].second-1", c'est l'eloignement du centre
-                        
-            
-            
+
+
+
             if(type == '*')
             {
                 m_vectBoat.push_back(new Boat(coord, type, vertical));
@@ -299,7 +300,7 @@ bool Player::toucher(std::pair<int, int> coord, bool vertical, int envergure, in
                                 std::cout << " bateau " << j  << " coord "<< i << " - " << coord.second << std::endl;
                                 return true;
                             }
-                            
+
                         }
                     }
                     else

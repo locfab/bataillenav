@@ -17,7 +17,7 @@ Boat::Boat(std::pair<int, int> coord, char type, bool vertical)
     m_type = type;
     m_vertical = vertical;
     m_touche = false;
-    
+
 }
 
 int Boat::envergure()
@@ -62,7 +62,7 @@ void Boat::setVertical()
 {
     int x =  this->getCoord().first;
     int y =  this->getCoord().second;
-    
+
     if(x +envergure() < 15 && x - envergure() >= 0 && y +envergure() < 15 && y - envergure() >= 0)
     {
         if(this->getVertical())
@@ -94,7 +94,7 @@ void Boat::setPointsTouches(std::pair<int, int> coord)
     m_pointsTouches.push_back(coord);
 }
 
-std::vector<std::pair<int, int>> Boat::getPointsTouches()
+std::vector<std::pair<int, int> > Boat::getPointsTouches()
 {
     return m_pointsTouches;
 }
@@ -128,7 +128,7 @@ void Boat::attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoat)
                     vectBoat[j]->setPointsTouches(coord);
                     return;
                 }
-                
+
             }
         }
         else

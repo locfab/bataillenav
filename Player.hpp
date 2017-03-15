@@ -35,10 +35,10 @@ public:
     void playIA();
     void moveBoat(int y);
     void turnBoat(int y);
-    
+
 protected:
     std::vector<Boat*> m_vectBoat;
-    std::vector<std::vector<char>> m_grille1;
-    std::vector<std::vector<char>> m_grille2;
+    std::vector<std::vector<char> > m_grille1;
+    std::vector<std::vector<char> > m_grille2;
 };
 #endif /* Player_hpp */
