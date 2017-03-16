@@ -17,6 +17,7 @@
 #include "SousMarin.hpp"
 #include "Destroyer.hpp"
 #include "Croiseur.hpp"
+#include "Console.hpp"
 
 class Player
 {
@@ -35,6 +36,8 @@ public:
     void playIA();
     void moveBoat(int y);
     void turnBoat(int y);
+    Console* pConsole = NULL;
+
 
 protected:
     std::vector<Boat*> m_vectBoat;

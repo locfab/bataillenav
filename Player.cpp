@@ -7,6 +7,7 @@
 //
 
 #include "Player.hpp"
+#include "Console.hpp"
 #include <cstdlib>
 
 Player::Player()
@@ -18,6 +19,8 @@ Player::Player()
         m_grille2.push_back(temp);
     }
     this->aleaGrille1();
+
+    pConsole = Console::getInstance();
 }
 
 void Player::play(Player adversaire)
@@ -132,6 +135,8 @@ std::vector<Boat*> Player::getVectBoat()
 
 void Player::printGrill(Player &adversaire)
 {
+    pConsole->gotoLigCol(0,0);
+   // pConsole->setColor(COLOR_YELLOW);
     setGrille1();
     setGrille2(adversaire);
     std::string espace = "          ";
