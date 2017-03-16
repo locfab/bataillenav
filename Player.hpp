@@ -24,6 +24,7 @@ class Player
 public:
     Player();
     void printGrill(Player &adversaire);
+    void printGrill(Player &adversaire, Boat * b);
     std::vector<std::vector<char> > getGrille1();
     std::vector<std::vector<char> > getGrille2();
     std::vector<Boat*> getVectBoat();
@@ -37,6 +38,7 @@ public:
     void moveBoat(int y);
     void turnBoat(int y);
     Console* pConsole = NULL;
+    void printColorBoat(Boat * b);
 
 
 protected:

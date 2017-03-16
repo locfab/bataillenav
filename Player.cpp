@@ -41,8 +41,22 @@ void Player::play(Player adversaire)
         do
         {
             std::cout << "Choisir de bouger un bateau parmi les " << getVectBoat().size() << std::endl;
-
-            std::cin >> choix;
+            int a = 0;
+            int boat = 0;
+            while(a != 13) //entret
+            {
+                printGrill(adversaire,getVectBoat()[boat]);
+                while(!this->pConsole->isKeyboardPressed())
+                {}
+                a = this->pConsole->getInputKey();
+                if(a == 32)
+                {
+                    boat += 1;
+                    boat %= getVectBoat().size();
+                    printGrill(adversaire,getVectBoat()[boat]);
+                }
+            }
+            choix = boat;
         }while(choix < 0 || choix > getVectBoat().size());
         moveBoat(choix);
     }
@@ -51,23 +65,57 @@ void Player::play(Player adversaire)
         do
         {
             std::cout << "Choisir de bouger un bateau parmi les " << getVectBoat().size() << std::endl;
-
-            std::cin >> choix;
+            int a = 0;
+            int boat = 0;
+            while(a != 13) //entret
+            {
+                printGrill(adversaire,getVectBoat()[boat]);
+                while(!this->pConsole->isKeyboardPressed())
+                {}
+                a = this->pConsole->getInputKey();
+                if(a == 32)
+                {
+                    boat += 1;
+                    boat %= getVectBoat().size();
+                    printGrill(adversaire,getVectBoat()[boat]);
+                }
+            }
+            choix = boat;
         }while(choix < 0 || choix > getVectBoat().size());
         turnBoat(choix);
     }
     else if(choix == 3)
     {
+        do
+        {
+            std::cout << "Choisir de bouger un bateau parmi les " << getVectBoat().size() << std::endl;
+            int a = 0;
+            int boat = 0;
+            while(a != 13) //entret
+            {
+                printGrill(adversaire,getVectBoat()[boat]);
+                while(!this->pConsole->isKeyboardPressed())
+                {}
+                a = this->pConsole->getInputKey();
+                if(a == 32)
+                {
+                    boat += 1;
+                    boat %= getVectBoat().size();
+                    printGrill(adversaire,getVectBoat()[boat]);
+                }
+            }
+            choix = boat;
+        }while(choix < 0 || choix > getVectBoat().size());
+
         char lettre;
         int nombre;
-        int boat;
+        std::cout << "choisir coordonnée" << std::endl;
         do{
             std::cin >> lettre;
             std::cin >> nombre;
-            std::cin >> boat;
 
         }while(lettre < 'a' || lettre > 'o' || nombre < 0 || nombre > 14);
-        m_vectBoat[boat]->shotBoat((int)(lettre-'a'), nombre, adversaire.getVectBoat());
+        m_vectBoat[choix]->shotBoat((int)(lettre-'a'), nombre, adversaire.getVectBoat());
     }
 
     printGrill(adversaire);
@@ -115,6 +163,34 @@ void Player::moveBoat(int y)
     m_vectBoat[y]->setCoord(b.first + dir.first, b.second + dir.second);
     //std::cout << m_vectBoat[y]->getCoord().first << " - " << m_vectBoat[y]->getCoord().second << std::endl;
 
+}
+
+void Player::printColorBoat(Boat * b)
+{
+    int envergure = b->envergure();
+    int x = b->getCoord().first;
+    int y = b->getCoord().second;
+
+    if(b->getVertical())
+    {
+        for(int i(x-envergure); i< x+envergure+1; i++)
+        {
+            pConsole->gotoLigCol(2*i+2, 3*y+2);
+            pConsole->setColor(COLOR_YELLOW);
+            std::cout << b->getType() << b->getType();
+
+        }
+    }
+    else
+    {
+        for(int i(y-envergure); i< y+envergure+1; i++)
+        {
+            pConsole->gotoLigCol(2*x+2, 3*i+2);
+            pConsole->setColor(COLOR_YELLOW);
+            std::cout << b->getType() << b->getType();
+        }
+    }
+    pConsole->setColor(COLOR_DEFAULT);
 }
 
 
@@ -173,7 +249,7 @@ void Player::printGrill(Player &adversaire)
             {
             //std::cout << "██" << "¦";
             if(m_grille2[i][j] == 't')
-                std::cout << "█" << "█" << "|";
+                std::cout << "X" << "X" << "|";
             else if(m_grille2[i][j] != '?')
                 std::cout << m_grille2[i][j] << m_grille2[i][j] << "¦";
             else
@@ -281,6 +357,11 @@ void Player::aleaGrille1()
     {
         m_vectBoat[i]->printBoat();
     }*/
+}
+void Player::printGrill(Player &adversaire, Boat * b)
+{
+    printGrill(adversaire);
+    printColorBoat(b);
 }
 
 
