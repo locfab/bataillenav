@@ -11,9 +11,8 @@
 
 Destroyer::Destroyer()
 {
-    
+
 }
-Destroyer::Destroyer(std::pair<int, int> coord, char type, bool vertical)
+Destroyer::Destroyer(std::pair<int, int> coord, char type, bool vertical): Boat(coord, type, vertical)
 {
-    Boat(coord, type, vertical);
 }

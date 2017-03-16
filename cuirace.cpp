@@ -11,11 +11,10 @@
 
 Cuirace::Cuirace()
 {
-    
+
 }
-Cuirace::Cuirace(std::pair<int, int> coord, char type, bool vertical)
+Cuirace::Cuirace(std::pair<int, int> coord, char type, bool vertical): Boat(coord, type, vertical)
 {
-    Boat(coord, type, vertical);
 }
 
 

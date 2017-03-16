@@ -17,7 +17,6 @@ Boat::Boat(std::pair<int, int> coord, char type, bool vertical)
     m_type = type;
     m_vertical = vertical;
     m_touche = false;
-
 }
 
 int Boat::envergure()

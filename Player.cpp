@@ -349,23 +349,21 @@ void Player::aleaGrille1()
                 }
             }while(toucher(coord, vertical, envergure)); //"objet[i].second-1", c'est l'eloignement du centre
 
-
-
             if(type == '*')
             {
-                m_vectBoat.push_back(new Boat(coord, type, vertical));
+                m_vectBoat.push_back(new Cuirace(coord, type, vertical));
             }
             if(type == 's')
             {
-                m_vectBoat.push_back(new Boat(coord, type, vertical));
+                m_vectBoat.push_back(new SousMarin(coord, type, vertical));
             }
             if(type == '+')
             {
-                m_vectBoat.push_back(new Boat(coord, type, vertical));
+                m_vectBoat.push_back(new Destroyer(coord, type, vertical));
             }
             if(type == 'o')
             {
-                m_vectBoat.push_back(new Boat(coord, type, vertical));
+                m_vectBoat.push_back(new Croiseur(coord, type, vertical));
             }
         }
     }
