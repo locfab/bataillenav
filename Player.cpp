@@ -64,7 +64,7 @@ void Player::play(Player adversaire)
     {
         do
         {
-            std::cout << "Choisir de bouger un bateau parmi les " << getVectBoat().size() << std::endl;
+            std::cout << "Choisir de tourner un bateau parmi les " << getVectBoat().size() << std::endl;
             int a = 0;
             int boat = 0;
             while(a != 13) //entret
@@ -88,7 +88,7 @@ void Player::play(Player adversaire)
     {
         do
         {
-            std::cout << "Choisir de bouger un bateau parmi les " << getVectBoat().size() << std::endl;
+            std::cout << "Choisir d'attaquer avec un bateau parmi les " << getVectBoat().size() << std::endl;
             int a = 0;
             int boat = 0;
             while(a != 13) //entret
@@ -109,12 +109,24 @@ void Player::play(Player adversaire)
 
         char lettre;
         int nombre;
-        std::cout << "choisir coordonnée" << std::endl;
-        do{
-            std::cin >> lettre;
-            std::cin >> nombre;
+        pConsole->gotoLigCol(40,0);
+        std::cout << "Choisir coordonnees" << std::endl;
 
-        }while(lettre < 'a' || lettre > 'o' || nombre < 0 || nombre > 14);
+               do{ pConsole->gotoLigCol(42,0);
+                std::cout << "                               ";
+                pConsole->gotoLigCol(42,0);
+                std::cout << "Ligne : ";
+                std::cin >> lettre;
+               }while(lettre < 'a' || lettre > 'o');
+
+               do{
+               pConsole->gotoLigCol(43,0);
+               std::cout << "                               ";
+               pConsole->gotoLigCol(43,0);
+                std::cout << "Colonne : ";
+                std::cin >> nombre;
+
+        }while(nombre < 0 || nombre > 14);
         m_vectBoat[choix]->shotBoat((int)(lettre-'a'), nombre, adversaire.getVectBoat());
     }
 
@@ -130,7 +142,8 @@ void Player::turnBoat(int y)
     }
     else
     {
-        std::cout << "Bateau déjà present" << std::endl;
+        pConsole->gotoLigCol(40,0);
+        std::cout << "Bateau deja present" << std::endl;
     }
 }
 
@@ -138,13 +151,16 @@ void Player::moveBoat(int y)
 {
     std::pair<int, int> b = m_vectBoat[y]->getCoord();
     std::pair<int, int> dir;
+    pConsole->gotoLigCol(40,0);
     std::cout << b.first << " - " << b.second << std::endl;
     do
     {
         char direction;
         std::vector<std::pair<int, int> > allDir = { {1, 0}, {-1, 0}, {0, 1}, {0, -1} };
         do{
-            std::cout << "choisir la direction avec 'h', 'b', 'g' ou 'd'" << std::endl;
+            pConsole->gotoLigCol(42,0);
+            std::cout << "Choisir la direction avec 'h', 'b', 'g' ou 'd'" << std::endl;
+            std::cout << "Direction : ";
             std::cin >> direction;
         }while(!(direction == 'h' || direction == 'b' || direction == 'g' || direction == 'd'));
 
