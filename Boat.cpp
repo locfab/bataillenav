@@ -17,6 +17,15 @@ Boat::Boat(std::pair<int, int> coord, char type, bool vertical)
     m_type = type;
     m_vertical = vertical;
     m_touche = false;
+
+    if(m_type == '*')
+        m_sizeAttack = 3;
+    else if(m_type == 's')
+        m_sizeAttack = 1;
+    else if(m_type == '+')
+        m_sizeAttack = 1;
+    else if(m_type == 'o')
+        m_sizeAttack = 2;
 }
 
 int Boat::envergure()
@@ -34,9 +43,10 @@ int Boat::envergure()
 }
 
 
-void Boat::shotBoat(int x, int y, std::vector<Boat*> vectBoat)
+void Boat::shotBoat(std::vector<std::pair<int, int> > coords, std::vector<Boat*> vectBoat)
 {
-    attaque(std::make_pair(x, y), vectBoat);
+    for(int i(0); i< coords.size(); i++)
+        attaque(coords[i], vectBoat);
 }
 
 
@@ -77,6 +87,10 @@ void Boat::setVertical()
     {
         std::cout << "Impossible, DEPASSEMENT" << std::endl;
     }
+}
+int Boat::getSizeAttacks()
+{
+    return m_sizeAttack;
 }
 
 void Boat::setTouche()

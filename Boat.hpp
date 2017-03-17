@@ -27,13 +27,14 @@ public:
     void setCoord(std::pair<int, int> coord);
     bool getVertical();
     void setVertical();
+    int getSizeAttacks();
     std::vector<std::pair<int, int> > getPointsTouches();
     void setPointsTouches(int x, int y);
     void setPointsTouches(std::pair<int, int> coord);
     void setTouche();
     void printBoat();
     char getType();
-    void shotBoat(int x, int y, std::vector<Boat*> vectBoat);
+    void shotBoat(std::vector<std::pair<int, int> > coords, std::vector<Boat*> vectBoat);
     void attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoat);
 
 protected:
@@ -41,6 +42,7 @@ protected:
     char m_type;
     bool m_vertical;
     bool m_touche;
+    int m_sizeAttack;
     std::vector<std::pair<int, int> > m_pointsTouches;
 };
 

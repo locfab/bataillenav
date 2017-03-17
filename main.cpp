@@ -12,6 +12,7 @@
 //test
 int main(int argc, const char * argv[]) {
 
+    srand(time(NULL));
     std::cout << "1 - Jouer" << std::endl;
     std::cout << "2 - charger partie" << std::endl;
     std::cout << "3 - aide" << std::endl;
@@ -38,7 +39,7 @@ int main(int argc, const char * argv[]) {
     }
     else if(choix == 4)
     {
-        
+
     }
 
     return 0;
