@@ -24,7 +24,7 @@ class Player
 public:
     Player();
     void printGrill(Player &adversaire);
-    void printGrill(Player &adversaire, std::vector<Boat*> bs,Boat * b);
+    void printBoatGrille1(std::vector<Boat*> bs,Boat * b);
     std::vector<std::vector<char> > getGrille1();
     std::vector<std::vector<char> > getGrille2();
     std::vector<Boat*> getVectBoat();
@@ -40,7 +40,9 @@ public:
     Console* pConsole = NULL;
     void printColorBoat(Boat * b);
     void printDefaultColorBoat(std::vector<Boat*> bs);
-    void printZoneGrille2(std::pair<int, int> coord, Boat*b);
+    void printZoneGrille2(std::pair<int, int> coord, Boat*b, int sizeAttacks);
+    int choixBoat();
+    std::pair<int, int> moveZoneRight(std::pair<int, int> coord, int choix, int sizeAttacks);
 
 
 protected:

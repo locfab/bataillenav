@@ -17,6 +17,7 @@ Boat::Boat(std::pair<int, int> coord, char type, bool vertical)
     m_type = type;
     m_vertical = vertical;
     m_touche = false;
+    m_fusee = false;
 
     if(m_type == '*')
         m_sizeAttack = 3;
@@ -47,6 +48,7 @@ void Boat::shotBoat(std::vector<std::pair<int, int> > coords, std::vector<Boat*>
 {
     for(int i(0); i< coords.size(); i++)
         attaque(coords[i], vectBoat);
+    this->setFusee();
 }
 
 
@@ -90,6 +92,15 @@ void Boat::setVertical()
 }
 int Boat::getSizeAttacks()
 {
+    if(this->m_fusee)
+    {
+        std::cout << "Voulez-vous utiliser la fusee? 'y', pour yes, autre chose sinn " << std::endl;
+        char choix;
+        std::cin >> choix;
+        if(choix == 'y')
+            return 4;
+    }
+
     return m_sizeAttack;
 }
 
@@ -124,7 +135,10 @@ char Boat::getType()
 {
     return m_type;
 }
-
+void Boat::setFusee()
+{
+    m_fusee = false;
+}
 void Boat::attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoat)
 {
     for(int j(0); j< vectBoat.size(); j++)

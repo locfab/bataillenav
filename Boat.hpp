@@ -36,6 +36,7 @@ public:
     char getType();
     void shotBoat(std::vector<std::pair<int, int> > coords, std::vector<Boat*> vectBoat);
     void attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoat);
+    void setFusee();
 
 protected:
     std::pair<int, int> m_coord;
@@ -43,6 +44,7 @@ protected:
     bool m_vertical;
     bool m_touche;
     int m_sizeAttack;
+    bool m_fusee;
     std::vector<std::pair<int, int> > m_pointsTouches;
 };
 
