@@ -48,7 +48,8 @@ void Boat::shotBoat(std::vector<std::pair<int, int> > coords, std::vector<Boat*>
 {
     for(int i(0); i< coords.size(); i++)
         attaque(coords[i], vectBoat);
-    this->setFusee();
+    if(this->m_fusee && coords.size() == 4*4)
+        this->setFusee();
 }
 
 
@@ -151,8 +152,20 @@ void Boat::attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoat)
             {
                 if(coord.first == k && coord.second == vectBoat[j]->getCoord().second)
                 {
-                    vectBoat[j]->setTouche();
-                    vectBoat[j]->setPointsTouches(coord);
+                                        bool present(false);
+                    for(int l(0); l < vectBoat[j]->getPointsTouches().size(); l++)
+                    {
+                        if(vectBoat[j]->getPointsTouches()[l] == coord)
+                        {
+                            present = true;
+                            break;
+                        }
+                    }
+                    if(!present)
+                    {
+                        vectBoat[j]->setTouche();
+                        vectBoat[j]->setPointsTouches(coord);
+                    }
                     return;
                 }
 
@@ -166,8 +179,20 @@ void Boat::attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoat)
             {
                 if(coord.first == vectBoat[j]->getCoord().first && k == coord.second)
                 {
-                    vectBoat[j]->setTouche();
-                    vectBoat[j]->setPointsTouches(coord);
+                    bool present(false);
+                    for(int l(0); l < vectBoat[j]->getPointsTouches().size(); l++)
+                    {
+                        if(vectBoat[j]->getPointsTouches()[l] == coord)
+                        {
+                            present = true;
+                            break;
+                        }
+                    }
+                    if(!present)
+                    {
+                        vectBoat[j]->setTouche();
+                        vectBoat[j]->setPointsTouches(coord);
+                    }
                     return;
                 }
             }

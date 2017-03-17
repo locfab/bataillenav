@@ -77,6 +77,8 @@ void Player::play(Player adversaire)
 
     }
     printGrill(adversaire);
+    //pConsole->gotoLigCol(35,60);
+    //std::cout << adversaire.m_vectBoat[0]->getPointsTouches().size() << std::endl;
 }
 std::pair<int, int> Player::moveZoneRight(std::pair<int, int> coord, int choix, int sizeAttacks)
 {
@@ -367,11 +369,10 @@ void Player::setGrille2(Player adversaire)
     std::vector <Boat*> boatsAdv = adversaire.getVectBoat();
     for(int i(0); i< boatsAdv.size(); i++)
     {
-        for(int j(0); j< boatsAdv[i]->getPointsTouches().size(); i++)
+        for(int j(0); j< boatsAdv[i]->getPointsTouches().size(); j++)
         {
             std::pair<int, int> coordTouche = boatsAdv[i]->getPointsTouches()[j];
             m_grille2[coordTouche.first][coordTouche.second] = 't';
-
         }
     }
 }
