@@ -31,7 +31,7 @@ void Player::play(Player adversaire)
         std::cout << "1 - choix, deplacement" << std::endl;
         std::cout << "2 - choix, rotation" << std::endl;
         std::cout << "3 - choix, attaque" << std::endl;
-        std::cout << "faite un choix compris entre 1 et 3" << std::endl;
+        std::cout << "Faites un choix compris entre 1 et 3" << std::endl;
 
         std::cin >> choix;
     }while(choix < 1 || choix > 3);
@@ -117,9 +117,9 @@ std::pair<int, int> Player::moveZoneRight(std::pair<int, int> coord, int choix, 
     return coord;
 }
 
-int Player::choixBoat()
+int Player::choixBoat() /// !!! ON NE PEUT PAS CHANGER DE CHOIX DE BATEAU !!!
 {
-    std::cout << "Choisir d'attaquer avec un bateau parmi les " << getVectBoat().size() << std::endl;
+    std::cout << "Choisir d'attaquer avec un bateau parmi les " << getVectBoat().size() << " bateaux de la grille :" << std::endl;
     int a = 0;
     int boat = 0;
     while(a != 13) //entret
@@ -138,7 +138,7 @@ int Player::choixBoat()
     return boat;
 }
 
-void Player::turnBoat(int y)
+void Player::turnBoat(int y)  /// !!!! DOIT REVENIR A l'ETAPE D'AVANT SI BATEAU DEJA PRESENT !!!!
 {
     Boat * b = m_vectBoat[y];
     if(!toucher(std::make_pair(b->getCoord().first, b->getCoord().second), !b->getVertical(), b->envergure(), y))
@@ -152,7 +152,7 @@ void Player::turnBoat(int y)
     }
 }
 
-void Player::moveBoat(int y)
+void Player::moveBoat(int y) /// SE DIRIGE MAL -> LE BATEAU EST BIEN SELECTIONNE ET BOUGE, MAIS N'IMPORTE COMMENT ///
 {
     std::pair<int, int> b = m_vectBoat[y]->getCoord();
     std::pair<int, int> dir;
