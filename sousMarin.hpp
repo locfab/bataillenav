@@ -16,6 +16,7 @@ class SousMarin: public Boat
 public:
     SousMarin();
     SousMarin(std::pair<int, int> coord, char type, bool vertical);
+    void attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoatAdvers);
 protected:
 };
 

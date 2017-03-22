@@ -22,9 +22,9 @@ public:
     ~Partie();
     void sauvegarde(Player &ordi, Player &user);
     void getInfoSauv(Player $ordi, Player $user);
-    bool victoire();
+    bool victoire(Player &p);
     bool boucleDeJeu(bool begin);
-    
+
 protected:
     Player m_ordi;
     Player m_user;

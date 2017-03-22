@@ -433,6 +433,8 @@ void Player::printBoatGrille1(std::vector<Boat*> bs, Boat * b)
 {
     printDefaultColorBoat(bs);
     printColorBoat(b);
+    pConsole->gotoLigCol(3,130);
+    b->printBoat();
 }
 
 
