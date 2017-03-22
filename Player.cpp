@@ -76,6 +76,7 @@ void Player::play(Player adversaire)
         m_vectBoat[choix]->shotBoat(coords, adversaire.getVectBoat());
 
     }
+    system("CLS");
     printGrill(adversaire);
     //pConsole->gotoLigCol(35,60);
     //std::cout << adversaire.m_vectBoat[0]->getPointsTouches().size() << std::endl;
@@ -122,7 +123,7 @@ int Player::choixBoat() /// !!! ON NE PEUT PAS CHANGER DE CHOIX DE BATEAU !!!
     std::cout << "Choisir d'attaquer avec un bateau parmi les " << getVectBoat().size() << " bateaux de la grille :" << std::endl;
     int a = 0;
     int boat = 0;
-    while(a != 13) //entret
+    while(a != 13) //entrer
     {
         printBoatGrille1(getVectBoat(), getVectBoat()[boat]);
         while(!this->pConsole->isKeyboardPressed())

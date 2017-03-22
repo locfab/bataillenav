@@ -95,7 +95,7 @@ int Boat::getSizeAttacks()
 {
     if(this->m_fusee)
     {
-        std::cout << "Voulez-vous utiliser la fusee? 'y' si oui - tapez une autre touche si non." << std::endl;
+        std::cout << "Voulez-vous utiliser la fusee? Tapez 'y' si oui - tapez une autre touche si non." << std::endl;
         char choix;
         std::cin >> choix;
         if(choix == 'y')
