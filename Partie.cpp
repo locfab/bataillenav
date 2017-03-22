@@ -9,11 +9,8 @@
 #include "Partie.hpp"
 #include "Console.hpp"
 #include <vector>
-<<<<<<< HEAD
 #include <cstdlib>
-=======
 #include <fstream>
->>>>>>> sauvegarde
 
 Partie::Partie()
 {
@@ -32,12 +29,13 @@ bool Partie::boucleDeJeu(bool begin)
     ps.push_back(&m_user);
 
     int i(0);
-    while(!victoire())
+    while(!victoire(*ps[1-i]))
     {
         ps[i]->printGrill(*ps[1-i]);
         ps[i]->play(*ps[1-i]);
         i++;
         i%=2;
+        //return true;
     }
     return false;
 }
@@ -73,4 +71,10 @@ void Partie::getInfoSauv()
 
     myfile >> *this; /// with the overload
     myfile.close();
+}
+
+void Partie::aleaGrill1()
+{
+    m_user.aleaGrille1();
+    m_ordi.aleaGrille1();
 }

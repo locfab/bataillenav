@@ -23,8 +23,9 @@ public:
 
     void sauvegarde();
     void getInfoSauv();
-    bool victoire();
+    bool victoire(Player &p);
     bool boucleDeJeu(bool begin);
+    void aleaGrill1();
 
     friend std::ostream& operator<<(std::ostream& os, const Partie& p)
        {

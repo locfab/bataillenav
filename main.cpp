@@ -53,8 +53,7 @@ int main(int argc, const char * argv[]) {
     if(choix == 0)
     {
         Partie partie;
-        partie.m_ordi.aleaGrille1();
-        partie.m_user.aleaGrille1();
+        partie.aleaGrill1();
         partie.boucleDeJeu(true);
         partie.sauvegarde();
     }
