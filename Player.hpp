@@ -45,6 +45,20 @@ public:
     std::pair<int, int> moveZoneRight(std::pair<int, int> coord, int choix, int sizeAttacks);
 
 
+
+
+       friend std::ostream& operator<<(std::ostream& os, const Player& p)
+       {
+           os << p.m_vectBoat << '\n';
+           return os;
+       }
+
+        friend std::istream& operator>>(std::istream& is, Player& p)
+        {
+            is >> p.m_vectBoat;
+            return is;
+        }
+
 protected:
     std::vector<Boat*> m_vectBoat;
     std::vector<std::vector<char> > m_grille1;

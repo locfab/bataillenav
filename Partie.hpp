@@ -20,12 +20,28 @@ class Partie
 public:
     Partie();
     ~Partie();
-    void sauvegarde(Player &ordi, Player &user);
-    void getInfoSauv(Player $ordi, Player $user);
-    bool victoire(Player &p);
+
+    void sauvegarde();
+    void getInfoSauv();
+    bool victoire();
     bool boucleDeJeu(bool begin);
 
+    friend std::ostream& operator<<(std::ostream& os, const Partie& p)
+       {
+           os << p.m_ordi << '\n';
+           os << p.m_user;
+           return os;
+       }
+
+        friend std::istream& operator>>(std::istream& is, Partie& p)
+        {
+            is >> p.m_ordi;
+            is >> p.m_user;
+            return is;
+        }
+
 protected:
+
     Player m_ordi;
     Player m_user;
 };

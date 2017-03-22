@@ -7,12 +7,16 @@
 //
 
 #include "Partie.hpp"
+#include "Console.hpp"
 #include <vector>
+<<<<<<< HEAD
 #include <cstdlib>
+=======
+#include <fstream>
+>>>>>>> sauvegarde
 
 Partie::Partie()
 {
-    boucleDeJeu(true);
 }
 
 Partie::~Partie()
@@ -21,15 +25,19 @@ Partie::~Partie()
 
 bool Partie::boucleDeJeu(bool begin)
 {
-    while(!victoire(m_ordi) || !victoire(m_user))
-    {
-        m_ordi.printGrill(m_user);
-        this->m_ordi.play(m_user);
-        system("CLS");
-        m_user.printGrill(m_ordi);
-        this->m_user.play(m_ordi);
-        system("CLS");
+    Console *p= Console::getInstance();
+    int sauv = false;
+    std::vector<Player*> ps;
+    ps.push_back(&m_ordi);
+    ps.push_back(&m_user);
 
+    int i(0);
+    while(!victoire())
+    {
+        ps[i]->printGrill(*ps[1-i]);
+        ps[i]->play(*ps[1-i]);
+        i++;
+        i%=2;
     }
     return false;
 }
@@ -42,52 +50,27 @@ bool Partie::victoire(Player &p)
 }
 
 
-void Partie::sauvegarde(Player &ordi, Player &user)
+void Partie::sauvegarde()
 {
-    std::ofstream monFlux("sauvegarde.txt");
+    std::ofstream myfile;
+    myfile.open("binary",std::ios::binary | std::ios::out);
+    ///in binary mode without string
+    //myfile.write((char*)&partie,sizeof(Partie));
+    myfile << *this; /// with the overload
 
-
-    if(monFlux)
-    {
-        for(unsigned i(0); i<15; i++)
-        {
-            for(unsigned j(0); j<15; j++)
-            {
-                monFlux << ordi.getGrille1()[i][j] << " ";
-            }
-            monFlux << std::endl;
-        }
-       /* for(unsigned i(0); i<15; i++)
-        {
-            for(unsigned j(0); j<15; j++)
-            {
-                monFlux << ordi.getGrille2()[i][j] << " ";
-            }
-            monFlux << std::endl;
-        }
-        for(unsigned i(0); i<15; i++)
-        {
-            for(unsigned j(0); j<15; j++)
-            {
-                monFlux << user.getGrille1()[i][j] << " ";
-            }
-            monFlux << std::endl;
-        }
-        for(unsigned i(0); i<15; i++)
-        {
-            for(unsigned j(0); j<15; j++)
-            {
-                monFlux << user.getGrille2()[i][j] << " ";
-            }
-            monFlux << std::endl;
-        }*/
-    }
-    else
-    {
-        std::cout << "ERREUR: Impossible d'ouvrir le fichier." << std::endl;
-    }
+    myfile.close();
 }
-void Partie::getInfoSauv(Player $ordi, Player $user)
-{
 
+
+void Partie::getInfoSauv()
+{
+    Partie partie;
+    std::ifstream myfile;
+    myfile.open("binary",std::ios::binary | std::ios::in);
+
+    ///in binary mode without string
+//    myfile.read((char*)&game,sizeof(Game));
+
+    myfile >> *this; /// with the overload
+    myfile.close();
 }
