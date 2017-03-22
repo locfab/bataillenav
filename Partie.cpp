@@ -8,6 +8,7 @@
 
 #include "Partie.hpp"
 #include <vector>
+#include <cstdlib>
 
 Partie::Partie()
 {
@@ -20,26 +21,32 @@ Partie::~Partie()
 
 bool Partie::boucleDeJeu(bool begin)
 {
-    while(!victoire())
+    while(!victoire(m_ordi) || !victoire(m_user))
     {
         m_ordi.printGrill(m_user);
         this->m_ordi.play(m_user);
+        system("CLS");
         m_user.printGrill(m_ordi);
         this->m_user.play(m_ordi);
+        system("CLS");
+
     }
     return false;
 }
-bool Partie::victoire()
+bool Partie::victoire(Player &p)
 {
-    return false;
+    for(int i(0); i<p.getVectBoat().size(); i++)
+        if(!p.getVectBoat()[i]->getCoule())
+            return false;
+    return true;
 }
 
 
 void Partie::sauvegarde(Player &ordi, Player &user)
 {
     std::ofstream monFlux("sauvegarde.txt");
-    
-    
+
+
     if(monFlux)
     {
         for(unsigned i(0); i<15; i++)
@@ -82,5 +89,5 @@ void Partie::sauvegarde(Player &ordi, Player &user)
 }
 void Partie::getInfoSauv(Player $ordi, Player $user)
 {
-    
+
 }

@@ -16,9 +16,10 @@ class Destroyer: public Boat
 public:
     Destroyer();
     Destroyer(std::pair<int, int> coord, char type, bool vertical);
+    void printBoat();
 protected:
 
-    
+
 };
 
 #endif /* destroyer_hpp */

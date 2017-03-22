@@ -32,17 +32,20 @@ public:
     void setPointsTouches(int x, int y);
     void setPointsTouches(std::pair<int, int> coord);
     void setTouche();
-    void printBoat();
+    virtual void printBoat();
     char getType();
-    void shotBoat(std::vector<std::pair<int, int> > coords, std::vector<Boat*> vectBoat);
-    void attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoat);
+    void shotBoat(std::vector<std::pair<int, int> > coords, std::vector<Boat*> vectBoatAdvers);
+    virtual void attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoatAdvers);
     void setFusee();
+    void setCoule();
+    bool getCoule();
 
 protected:
     std::pair<int, int> m_coord;
     char m_type;
     bool m_vertical;
     bool m_touche;
+    bool m_coule;
     int m_sizeAttack;
     bool m_fusee;
     std::vector<std::pair<int, int> > m_pointsTouches;
