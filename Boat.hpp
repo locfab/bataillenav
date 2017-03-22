@@ -38,6 +38,25 @@ public:
     void attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoat);
     void setFusee();
 
+friend std::istream& operator>>(std::istream& is, const std::vector<Boat*> &b)
+{
+    //is >> b.m_coord.first >> b.m_coord.second;
+    //return is;
+}
+
+
+friend std::ostream& operator<<(std::ostream& os, const std::vector<Boat*> &b)
+{
+    for(int i=0;i<b.size();i++)
+    {
+        os << b[i]->m_coord.first << " " << b[i]->m_coord.second << b[i]->m_type << " " << b[i]->m_vertical << " " << b[i]->m_touche;
+        os << " " << b[i]->m_sizeAttack << " " << b[i]->m_fusee << '/n';
+        return os;
+
+
+    }
+}
+
 protected:
     std::pair<int, int> m_coord;
     char m_type;

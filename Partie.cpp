@@ -8,10 +8,12 @@
 
 #include "Partie.hpp"
 #include <vector>
+#include <fstream>
 
 Partie::Partie()
 {
-    boucleDeJeu(true);
+    this->sauvegarde();
+    return;
 }
 
 Partie::~Partie()
@@ -35,52 +37,30 @@ bool Partie::victoire()
 }
 
 
-void Partie::sauvegarde(Player &ordi, Player &user)
+void Partie::sauvegarde()
 {
-    std::ofstream monFlux("sauvegarde.txt");
-    
-    
-    if(monFlux)
-    {
-        for(unsigned i(0); i<15; i++)
-        {
-            for(unsigned j(0); j<15; j++)
-            {
-                monFlux << ordi.getGrille1()[i][j] << " ";
-            }
-            monFlux << std::endl;
-        }
-       /* for(unsigned i(0); i<15; i++)
-        {
-            for(unsigned j(0); j<15; j++)
-            {
-                monFlux << ordi.getGrille2()[i][j] << " ";
-            }
-            monFlux << std::endl;
-        }
-        for(unsigned i(0); i<15; i++)
-        {
-            for(unsigned j(0); j<15; j++)
-            {
-                monFlux << user.getGrille1()[i][j] << " ";
-            }
-            monFlux << std::endl;
-        }
-        for(unsigned i(0); i<15; i++)
-        {
-            for(unsigned j(0); j<15; j++)
-            {
-                monFlux << user.getGrille2()[i][j] << " ";
-            }
-            monFlux << std::endl;
-        }*/
-    }
-    else
-    {
-        std::cout << "ERREUR: Impossible d'ouvrir le fichier." << std::endl;
-    }
+
+    std::ofstream myfile;
+    myfile.open("binary",std::ios::binary | std::ios::out);
+    ///in binary mode without string
+    //myfile.write((char*)&partie,sizeof(Partie));
+    myfile << *this; /// with the overload
+
+    myfile.close();
 }
-void Partie::getInfoSauv(Player $ordi, Player $user)
+
+
+void Partie::getInfoSauv()
 {
-    
+    Partie partie;
+    std::ifstream myfile;
+    myfile.open("binary",std::ios::binary | std::ios::in);
+
+    ///in binary mode without string
+//    myfile.read((char*)&game,sizeof(Game));
+
+    myfile >> partie; /// with the overload
+    myfile.close();
+
+    return partie;
 }
