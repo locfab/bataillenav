@@ -7,13 +7,12 @@
 //
 
 #include "Partie.hpp"
+#include "Console.hpp"
 #include <vector>
 #include <fstream>
 
 Partie::Partie()
 {
-    this->sauvegarde();
-    return;
 }
 
 Partie::~Partie()
@@ -22,12 +21,19 @@ Partie::~Partie()
 
 bool Partie::boucleDeJeu(bool begin)
 {
+    Console *p= Console::getInstance();
+    int sauv = false;
+    std::vector<Player*> ps;
+    ps.push_back(&m_ordi);
+    ps.push_back(&m_user);
+
+    int i(0);
     while(!victoire())
     {
-        m_ordi.printGrill(m_user);
-        this->m_ordi.play(m_user);
-        m_user.printGrill(m_ordi);
-        this->m_user.play(m_ordi);
+        ps[i]->printGrill(*ps[1-i]);
+        ps[i]->play(*ps[1-i]);
+        i++;
+        i%=2;
     }
     return false;
 }
@@ -39,7 +45,6 @@ bool Partie::victoire()
 
 void Partie::sauvegarde()
 {
-
     std::ofstream myfile;
     myfile.open("binary",std::ios::binary | std::ios::out);
     ///in binary mode without string
@@ -59,8 +64,6 @@ void Partie::getInfoSauv()
     ///in binary mode without string
 //    myfile.read((char*)&game,sizeof(Game));
 
-    myfile >> partie; /// with the overload
+    myfile >> *this; /// with the overload
     myfile.close();
-
-    return partie;
 }

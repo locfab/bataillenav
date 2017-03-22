@@ -44,54 +44,20 @@ public:
     int choixBoat();
     std::pair<int, int> moveZoneRight(std::pair<int, int> coord, int choix, int sizeAttacks);
 
-friend std::ostream& operator<<(std::ostream& os, const std::vector<std::vector<char> > &g)
+
+
+
+       friend std::ostream& operator<<(std::ostream& os, const Player& p)
        {
-        //   os << p.m_vectBoat << '\n';
-        for(int i=0;i<15;i++)
-        {
-            for(int j=0; j<15;j++)
-            {
-                os << g[i][j];
-            }
-        }
-
-           return os;
-       }
-
-        friend std::istream& operator>>(std::istream& is, const std::vector<std::vector<char> > &g)
-        {
-         //   is >> p.m_vectBoat;
-         for(int i=0;i<15;i++)
-        {
-            for(int j=0; j<15;j++)
-            {
-                is >> g[i][j];
-            }
-        }
-
-            return is;
-        }
-
-
-    friend std::ostream& operator<<(std::ostream& os, const Player& p)
-       {
-        //   os << p.m_vectBoat << '\n';
-           os << p.m_grille1 << '\n';
-           os << p.m_grille2 << '\n';
+           os << p.m_vectBoat << '\n';
            return os;
        }
 
         friend std::istream& operator>>(std::istream& is, Player& p)
         {
-         //   is >> p.m_vectBoat;
-            is >> p.m_grille1;
-            is >> p.m_grille2;
+            is >> p.m_vectBoat;
             return is;
         }
-
-
-
-
 
 protected:
     std::vector<Boat*> m_vectBoat;

@@ -39,7 +39,7 @@ public:
             return is;
         }
 
-protected:
+public:
     Player m_ordi;
     Player m_user;
 };

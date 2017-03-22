@@ -13,7 +13,8 @@
 #include <string>
 //test
 int main(int argc, const char * argv[]) {
-    int choix = 1;
+
+    int choix = 0;
     Console* p=Console::getInstance();
     srand(time(NULL));
     std::vector<std::string> menu;
@@ -22,34 +23,55 @@ int main(int argc, const char * argv[]) {
     menu.push_back("3 - aide");
     menu.push_back("4 - quitter");
 
-    for(int i=0;i<menu.size();i++)
+    int a;
+    while(a != 13)
     {
-        if(choix==i)
+        system("CLS");
+        p->gotoLigCol(0,0);
+        for(int i=0;i<menu.size();i++)
         {
-            p->setColor(COLOR_BLUE);
-            std::cout<<menu[i]<<std::endl;
-            p->setColor(COLOR_DEFAULT);
+            if(choix==i)
+            {
+                p->setColor(COLOR_BLUE);
+                std::cout<<menu[i]<<std::endl;
+                p->setColor(COLOR_DEFAULT);
+            }
+            else
+                std::cout<<menu[i]<<std::endl;
         }
-        std::cout<<menu[i]<<std::endl;
+        while(p->isKeyboardPressed())
+            {}
+        a = p->getInputKey();
+        if(a == 's')
+            choix++;
+        if(a == 'z')
+            choix--;
+        choix %= menu.size();
     }
 
-    if(choix == 1)
+
+    if(choix == 0)
     {
         Partie partie;
+        partie.m_ordi.aleaGrille1();
+        partie.m_user.aleaGrille1();
         partie.boucleDeJeu(true);
+        partie.sauvegarde();
+    }
+    else if(choix == 1)
+    {
+        bool sauv(false);
+        Partie partie;
+        partie.getInfoSauv();
+        sauv = partie.boucleDeJeu(true);
+        if(sauv)
+            partie.sauvegarde();
     }
     else if(choix == 2)
     {
-        Partie partie;
-        partie.getInfoSauv();
-        partie.boucleDeJeu(true);
 
     }
     else if(choix == 3)
-    {
-
-    }
-    else if(choix == 4)
     {
 
     }

@@ -9,6 +9,7 @@
 #include "Player.hpp"
 #include "Console.hpp"
 #include <cstdlib>
+#include <ctime>
 
 Player::Player()
 {
@@ -18,25 +19,42 @@ Player::Player()
         m_grille1.push_back(temp);
         m_grille2.push_back(temp);
     }
-    this->aleaGrille1();
-
     pConsole = Console::getInstance();
 }
 
 void Player::play(Player adversaire)
 {
-    int choix(-1);
-    do
+    int choix(0);
+    std::vector<std::string> menu;
+    menu.push_back("1 - choix, deplacement");
+    menu.push_back("2 - choix, rotation");
+    menu.push_back("3 - choix, attaque");
+    int a;
+    while(a != 13)
     {
-        std::cout << "1 - choix, deplacement" << std::endl;
-        std::cout << "2 - choix, rotation" << std::endl;
-        std::cout << "3 - choix, attaque" << std::endl;
-        std::cout << "Faites un choix compris entre 1 et 3" << std::endl;
+        pConsole->gotoLigCol(35,0);
+        for(int i=0;i<menu.size();i++)
+        {
+            if(choix==i)
+            {
+                pConsole->setColor(COLOR_BLUE);
+                std::cout<<menu[i]<<std::endl;
+                pConsole->setColor(COLOR_DEFAULT);
+            }
+            else
+                std::cout<<menu[i]<<std::endl;
+        }
+        while(pConsole->isKeyboardPressed())
+            {}
+        a = pConsole->getInputKey();
+        if(a == 's')
+            choix++;
+        if(a == 'z')
+            choix--;
+        choix %= menu.size();
+    }
 
-        std::cin >> choix;
-    }while(choix < 1 || choix > 3);
-
-    if(choix == 1)
+    if(choix == 0)
     {
         do
         {
@@ -44,7 +62,7 @@ void Player::play(Player adversaire)
         }while(choix < 0 || choix > getVectBoat().size());
         moveBoat(choix);
     }
-    else if(choix == 2)
+    else if(choix == 1)
     {
         do
         {
@@ -52,7 +70,7 @@ void Player::play(Player adversaire)
         }while(choix < 0 || choix > getVectBoat().size());
         turnBoat(choix);
     }
-    else if(choix == 3)
+    else if(choix == 2)
     {
         do
         {
@@ -77,6 +95,9 @@ void Player::play(Player adversaire)
 
     }
     printGrill(adversaire);
+    clock_t t = clock ();
+    while(clock()-t < 2000){}
+
     //pConsole->gotoLigCol(35,60);
     //std::cout << adversaire.m_vectBoat[0]->getPointsTouches().size() << std::endl;
 }
@@ -119,7 +140,6 @@ std::pair<int, int> Player::moveZoneRight(std::pair<int, int> coord, int choix, 
 
 int Player::choixBoat() /// !!! ON NE PEUT PAS CHANGER DE CHOIX DE BATEAU !!!
 {
-    std::cout << "Choisir d'attaquer avec un bateau parmi les " << getVectBoat().size() << " bateaux de la grille :" << std::endl;
     int a = 0;
     int boat = 0;
     while(a != 13) //entret
@@ -147,7 +167,7 @@ void Player::turnBoat(int y)  /// !!!! DOIT REVENIR A l'ETAPE D'AVANT SI BATEAU 
     }
     else
     {
-        pConsole->gotoLigCol(40,0);
+        pConsole->gotoLigCol(39,0);
         std::cout << "Bateau deja present" << std::endl;
     }
 }
@@ -156,24 +176,22 @@ void Player::moveBoat(int y) /// SE DIRIGE MAL -> LE BATEAU EST BIEN SELECTIONNE
 {
     std::pair<int, int> b = m_vectBoat[y]->getCoord();
     std::pair<int, int> dir;
-    pConsole->gotoLigCol(40,0);
-    std::cout << b.first << " - " << b.second << std::endl;
     do
     {
         char direction;
         std::vector<std::pair<int, int> > allDir = { {1, 0}, {-1, 0}, {0, 1}, {0, -1} };
         do{
-            pConsole->gotoLigCol(42,0);
-            std::cout << "Choisir la direction avec 'h', 'b', 'g' ou 'd'" << std::endl;
+            pConsole->gotoLigCol(39,0);
+            std::cout << "Choisir la direction avec 'z', 'q', 's' ou 'd'" << std::endl;
             std::cout << "Direction : ";
             std::cin >> direction;
-        }while(!(direction == 'h' || direction == 'b' || direction == 'g' || direction == 'd'));
+        }while(!(direction == 'z' || direction == 's' || direction == 'q' || direction == 'd'));
 
-        if(direction == 'h')
+        if(direction == 'z')
             dir = allDir[1];
-        else if(direction == 'b')
+        else if(direction == 's')
             dir = allDir[0];
-        else if(direction == 'g')
+        else if(direction == 'q')
             dir = allDir[3];
         else if(direction == 'd')
             dir = allDir[2];
@@ -183,7 +201,6 @@ void Player::moveBoat(int y) /// SE DIRIGE MAL -> LE BATEAU EST BIEN SELECTIONNE
     //std::cout << m_vectBoat[y]->getCoord().first << " - " << m_vectBoat[y]->getCoord().second << std::endl;
     m_vectBoat[y]->setCoord(b.first + dir.first, b.second + dir.second);
     //std::cout << m_vectBoat[y]->getCoord().first << " - " << m_vectBoat[y]->getCoord().second << std::endl;
-
 }
 
 void Player::printColorBoat(Boat * b)
@@ -284,10 +301,11 @@ std::vector<Boat*> Player::getVectBoat()
 
 void Player::printGrill(Player &adversaire)
 {
-    pConsole->gotoLigCol(0,0);
    // pConsole->setColor(COLOR_YELLOW);
     setGrille1();
     setGrille2(adversaire);
+    system("CLS");
+    pConsole->gotoLigCol(0,0);
     std::string espace = "          ";
     std::cout << " |";
     for(int i(0); i<15; i++)

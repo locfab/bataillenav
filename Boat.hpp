@@ -16,6 +16,7 @@
 
 
 
+
 class Boat
 {
 public:
@@ -38,23 +39,82 @@ public:
     void attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoat);
     void setFusee();
 
-friend std::istream& operator>>(std::istream& is, const std::vector<Boat*> &b)
+friend std::istream& operator>>(std::istream& is, std::vector<Boat*> &b)
 {
-    //is >> b.m_coord.first >> b.m_coord.second;
-    //return is;
+    int a;
+    is >> a;
+    for(int i(0); i< a; i++)
+    {
+        Boat *boatTemp = new Boat();
+        is >> boatTemp->m_coord.first >> boatTemp->m_coord.second >> boatTemp->m_type;
+        is >> boatTemp->m_vertical >> boatTemp->m_touche >> boatTemp->m_sizeAttack >> boatTemp->m_fusee;
+
+        int c;
+        is >> c;
+        for(int j(0); j<c; j++)
+        {
+            std::pair<int, int> temp;
+            is >> temp.first >> temp.second;
+            boatTemp->m_pointsTouches.push_back(temp);
+        }
+
+        /*if(boatTemp->m_type == '*')
+        {
+            b.push_back((Cuirace)boatTemp);
+        }
+        if(boatTemp->m_type == 's')
+        {
+            b.push_back((SousMarin)boatTemp);
+        }
+        if(boatTemp->m_type == '+')
+        {
+            b.push_back((Destroyer)boatTemp);
+        }
+        if(boatTemp->m_type == 'o')
+        {
+            b.push_back((Croiseur)boatTemp);
+        }*/
+        if(boatTemp->m_type == '*')
+        {
+            b.push_back(boatTemp);
+        }
+        if(boatTemp->m_type == 's')
+        {
+            b.push_back(boatTemp);
+        }
+        if(boatTemp->m_type == '+')
+        {
+            b.push_back(boatTemp);
+        }
+        if(boatTemp->m_type == 'o')
+        {
+            b.push_back(boatTemp);
+        }
+    }
+    //for(int i(0); i<10; i++)
+      //  std::cout << "faux: " << b[i]->getCoord().first << "," << b[i]->getCoord().second << std::endl;
+        //std::cout << std::endl;
+    return is;
 }
 
 
 friend std::ostream& operator<<(std::ostream& os, const std::vector<Boat*> &b)
 {
+    os << b.size() << std::endl;
     for(int i=0;i<b.size();i++)
     {
-        os << b[i]->m_coord.first << " " << b[i]->m_coord.second << b[i]->m_type << " " << b[i]->m_vertical << " " << b[i]->m_touche;
-        os << " " << b[i]->m_sizeAttack << " " << b[i]->m_fusee << '/n';
-        return os;
+        os << b[i]->m_coord.first << " " << b[i]->m_coord.second << " " << b[i]->m_type << " " << b[i]->m_vertical << " " << b[i]->m_touche;
+        os << " " << b[i]->m_sizeAttack << " " << b[i]->m_fusee << std::endl;
 
-
+        os << b[i]->getPointsTouches().size() << " ";
+        for(int j(0); j<b[i]->getPointsTouches().size(); j++)
+        {
+            os << b[i]->getPointsTouches()[j].first << " " << b[i]->getPointsTouches()[j].second << " ";
+        }
+        os << std::endl;
     }
+
+    return os;
 }
 
 protected:
