@@ -71,7 +71,7 @@ void Boat::setCoord(std::pair<int, int> coord)
     setCoord(coord.first, coord.second);
 }
 
-void Boat::setVertical()
+bool Boat::setVertical()
 {
     int x =  this->getCoord().first;
     int y =  this->getCoord().second;
@@ -86,10 +86,11 @@ void Boat::setVertical()
         {
             this->m_vertical = true;
         }
+        return true;
     }
     else
     {
-        std::cout << "Impossible, DEPASSEMENT" << std::endl;
+        return false;
     }
 }
 int Boat::getSizeAttacks()

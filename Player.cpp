@@ -29,71 +29,80 @@ void Player::play(Player adversaire)
     menu.push_back("1 - choix, deplacement");
     menu.push_back("2 - choix, rotation");
     menu.push_back("3 - choix, attaque");
-    int a;
-    while(a != 13)
+
+    bool opetationEff(false);
+    do
     {
-        pConsole->gotoLigCol(35,0);
-        for(int i=0;i<menu.size();i++)
+        int a = -1;
+        choix = 0;
+        while(a != 13)
         {
-            if(choix==i)
+            pConsole->gotoLigCol(35,0);
+            for(int i=0;i<menu.size();i++)
             {
-                pConsole->setColor(COLOR_BLUE);
-                std::cout<<menu[i]<<std::endl;
-                pConsole->setColor(COLOR_DEFAULT);
-            }
-            else
-                std::cout<<menu[i]<<std::endl;
-        }
-        while(pConsole->isKeyboardPressed())
-            {}
-        a = pConsole->getInputKey();
-        if(a == 's')
-            choix++;
-        if(a == 'z')
-            choix--;
-        choix %= menu.size();
-    }
-
-    if(choix == 0)
-    {
-        do
-        {
-            choix = choixBoat();
-        }while(choix < 0 || choix > getVectBoat().size());
-        moveBoat(choix);
-    }
-    else if(choix == 1)
-    {
-        do
-        {
-            choix = choixBoat();
-        }while(choix < 0 || choix > getVectBoat().size());
-        turnBoat(choix);
-    }
-    else if(choix == 2)
-    {
-        do
-        {
-            choix = choixBoat();
-        }while(choix < 0 || choix > getVectBoat().size());
-
-        int sizeAttacks = m_vectBoat[choix]->getSizeAttacks();
-        std::pair<int, int> coord = std::make_pair(0,0);
-        coord = moveZoneRight(coord, choix, sizeAttacks);
-
-        std::vector<std::pair<int, int> > coords;
-        int x = coord.first;
-        int y = coord.second;
-            for(int i(x); i<x+sizeAttacks; i++)//creation de la zone
-            {
-                for(int j(y); j<y+sizeAttacks; j++)
+                if(choix==i)
                 {
-                    coords.push_back(std::make_pair(i, j));
+                    pConsole->setColor(COLOR_BLUE);
+                    std::cout<<menu[i]<<std::endl;
+                    pConsole->setColor(COLOR_DEFAULT);
                 }
+                else
+                    std::cout<<menu[i]<<std::endl;
             }
-        m_vectBoat[choix]->shotBoat(coords, adversaire.getVectBoat());
+            while(pConsole->isKeyboardPressed())
+                {}
+            a = pConsole->getInputKey();
+            if(a == 's')
+                choix++;
+            if(a == 'z')
+                choix--;
+            choix %= menu.size();
+        }
 
-    }
+        if(choix == 0)
+        {
+            do
+            {
+                choix = choixBoat();
+            }while(choix < 0 || choix > getVectBoat().size());
+            opetationEff = moveBoat(choix);
+        }
+        else if(choix == 1)
+        {
+            do
+            {
+                choix = choixBoat();
+            }while(choix < 0 || choix > getVectBoat().size());
+            opetationEff = turnBoat(choix);
+        }
+        else if(choix == 2)
+        {
+            do
+            {
+                choix = choixBoat();
+            }while(choix < 0 || choix > getVectBoat().size());
+
+            int sizeAttacks = m_vectBoat[choix]->getSizeAttacks();
+            std::pair<int, int> coord = std::make_pair(0,0);
+            coord = moveZoneRight(coord, choix, sizeAttacks);
+            if(coord.first != -1 && coord.second != -1) // si pas d'annulation dans moveZoneRight
+            {
+                std::vector<std::pair<int, int> > coords;
+                int x = coord.first;
+                int y = coord.second;
+                for(int i(x); i<x+sizeAttacks; i++)//creation de la zone
+                {
+                    for(int j(y); j<y+sizeAttacks; j++)
+                    {
+                        coords.push_back(std::make_pair(i, j));
+                    }
+                }
+                m_vectBoat[choix]->shotBoat(coords, adversaire.getVectBoat());
+                opetationEff = true;
+            }
+        }
+    }while(!opetationEff);
+
     system("CLS");
     printGrill(adversaire);
     clock_t t = clock ();
@@ -135,6 +144,8 @@ std::pair<int, int> Player::moveZoneRight(std::pair<int, int> coord, int choix, 
             if(coord.second > (15-sizeAttacks))
                 coord.second = (15-sizeAttacks);
         }
+        if(a=='e')
+            return std::make_pair(-1,-1);
     }
     return coord;
 }
@@ -159,21 +170,21 @@ int Player::choixBoat() /// !!! ON NE PEUT PAS CHANGER DE CHOIX DE BATEAU !!!
     return boat;
 }
 
-void Player::turnBoat(int y)  /// !!!! DOIT REVENIR A l'ETAPE D'AVANT SI BATEAU DEJA PRESENT !!!!
+bool Player::turnBoat(int y)  /// !!!! DOIT REVENIR A l'ETAPE D'AVANT SI BATEAU DEJA PRESENT !!!!
 {
     Boat * b = m_vectBoat[y];
     if(!toucher(std::make_pair(b->getCoord().first, b->getCoord().second), !b->getVertical(), b->envergure(), y))
     {
-        b->setVertical();
+        bool eff = b->setVertical();
+        return eff;
     }
     else
     {
-        pConsole->gotoLigCol(39,0);
-        std::cout << "Bateau deja present" << std::endl;
+        return false;
     }
 }
 
-void Player::moveBoat(int y) /// SE DIRIGE MAL -> LE BATEAU EST BIEN SELECTIONNE ET BOUGE, MAIS N'IMPORTE COMMENT ///
+bool Player::moveBoat(int y) /// SE DIRIGE MAL -> LE BATEAU EST BIEN SELECTIONNE ET BOUGE, MAIS N'IMPORTE COMMENT ///
 {
     std::pair<int, int> b = m_vectBoat[y]->getCoord();
     std::pair<int, int> dir;
@@ -183,10 +194,10 @@ void Player::moveBoat(int y) /// SE DIRIGE MAL -> LE BATEAU EST BIEN SELECTIONNE
         std::vector<std::pair<int, int> > allDir = { {1, 0}, {-1, 0}, {0, 1}, {0, -1} };
         do{
             pConsole->gotoLigCol(39,0);
-            std::cout << "Choisir la direction avec 'z', 'q', 's' ou 'd'" << std::endl;
+            std::cout << "Choisir la direction avec 'z', 'q', 's', 'd' ou 'e' pour sortir du menu" << std::endl;
             std::cout << "Direction : ";
             std::cin >> direction;
-        }while(!(direction == 'z' || direction == 's' || direction == 'q' || direction == 'd'));
+        }while(!(direction == 'z' || direction == 's' || direction == 'q' || direction == 'd' || direction == 'e'));
 
         if(direction == 'z')
             dir = allDir[1];
@@ -196,11 +207,14 @@ void Player::moveBoat(int y) /// SE DIRIGE MAL -> LE BATEAU EST BIEN SELECTIONNE
             dir = allDir[3];
         else if(direction == 'd')
             dir = allDir[2];
+        else if(direction == 'e')
+            return false;
         //std::cout << b.first << " + " << dir.first << " , " << b.second << " + " <<  dir.second << ", ver:  " << m_vectBoat[y]->getVertical() << ", env: " << m_vectBoat[y]->envergure() << ", indice: " <<  y << std::endl;
     }while(toucher(std::make_pair(b.first + dir.first, b.second + dir.second), m_vectBoat[y]->getVertical(), m_vectBoat[y]->envergure(), y));
 
     //std::cout << m_vectBoat[y]->getCoord().first << " - " << m_vectBoat[y]->getCoord().second << std::endl;
     m_vectBoat[y]->setCoord(b.first + dir.first, b.second + dir.second);
+    return true;
     //std::cout << m_vectBoat[y]->getCoord().first << " - " << m_vectBoat[y]->getCoord().second << std::endl;
 }
 
@@ -474,7 +488,7 @@ bool Player::toucher(std::pair<int, int> coord, bool vertical, int envergure, in
                         {
                             if(i==k && coord.second == m_vectBoat[j]->getCoord().second)
                             {
-                                std::cout << " bateau " << j  << " coord "<< i << " - " << coord.second << std::endl;
+                                //std::cout << " bateau " << j  << " coord "<< i << " - " << coord.second << std::endl;
                                 return true;
                             }
 
@@ -488,7 +502,7 @@ bool Player::toucher(std::pair<int, int> coord, bool vertical, int envergure, in
                         {
                             if(i == m_vectBoat[j]->getCoord().first && k == coord.second)
                             {
-                                std::cout << " bateau " << j  << " coord "<< i << " - " << k << std::endl;
+                                //std::cout << " bateau " << j  << " coord "<< i << " - " << k << std::endl;
                                 return true;
                             }
                         }
@@ -513,7 +527,7 @@ bool Player::toucher(std::pair<int, int> coord, bool vertical, int envergure, in
                         {
                             if(i == m_vectBoat[j]->getCoord().second && coord.first == k)
                             {
-                                std::cout << " bateau " << j  << " coord "<< i << " - " << k << std::endl;
+                                //std::cout << " bateau " << j  << " coord "<< i << " - " << k << std::endl;
                                 return true;
                             }
                         }
@@ -526,7 +540,7 @@ bool Player::toucher(std::pair<int, int> coord, bool vertical, int envergure, in
                         {
                             if(i==k && coord.first == m_vectBoat[j]->getCoord().first)
                             {
-                                std::cout << " bateau " << j  << " coord "<< i << " - " << coord.first << std::endl;
+                                //std::cout << " bateau " << j  << " coord "<< i << " - " << coord.first << std::endl;
                                 return true;
                             }
                         }

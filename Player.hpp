@@ -35,8 +35,8 @@ public:
     bool toucher(std::pair<int, int> coord, bool vectical, int envergure, int withoutIndice = -1);
     void play(Player adversaire);
     void playIA();
-    void moveBoat(int y);
-    void turnBoat(int y);
+    bool moveBoat(int y);
+    bool turnBoat(int y);
     Console* pConsole = NULL;
     void printColorBoat(Boat * b);
     void printDefaultColorBoat(std::vector<Boat*> bs);

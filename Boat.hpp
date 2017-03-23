@@ -27,7 +27,7 @@ public:
     void setCoord(int x, int y);
     void setCoord(std::pair<int, int> coord);
     bool getVertical();
-    void setVertical();
+    bool setVertical();
     int getSizeAttacks();
     std::vector<std::pair<int, int> > getPointsTouches();
     void setPointsTouches(int x, int y);
