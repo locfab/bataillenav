@@ -42,7 +42,7 @@ void Player::play(Player adversaire)
             {
                 if(choix==i)
                 {
-                    pConsole->setColor(COLOR_BLUE);
+                    pConsole->setColor(COLOR_RED);
                     std::cout<<menu[i]<<std::endl;
                     pConsole->setColor(COLOR_DEFAULT);
                 }
