@@ -65,7 +65,6 @@ void Partie::getInfoSauv()
     Partie partie;
     std::ifstream myfile;
     myfile.open("binary",std::ios::binary | std::ios::in);
-
     ///in binary mode without string
 //    myfile.read((char*)&game,sizeof(Game));
 
