@@ -101,6 +101,8 @@ void Player::play(Player adversaire)
                 opetationEff = true;
             }
         }
+        if(!opetationEff)
+            printGrill(adversaire);
     }while(!opetationEff);
 
     system("CLS");
