@@ -77,3 +77,30 @@ void Partie::aleaGrill1()
     m_user.aleaGrille1();
     m_ordi.aleaGrille1();
 }
+
+void Partie::aide()
+{
+    system("CLS");
+    std::cout << "Dans ce jeu, vous prendrez part a une bataille navale sans pitie !" << std::endl;
+    std::cout << "Cette bataille navale se joue a 2. Chaque joueur joue tour a tour." << std::endl;
+    std::cout << "A gauche, vous avez votre grille de bateaux, et a droite, une grille pour visualiser les degats infliges a votre adversaire." << std::endl;
+    std::cout << "Chaque joueur possede une flotte de 10 navires, composee de :" << std::endl;
+    std::cout << "- 1 cuirasse, d'une taille de 7 cases, et tirant des obus faisant des degats sur 9 cases." << std::endl;
+    std::cout << "- 2 croiseurs, d'une taille de 5 cases, et tirant des obus faisant des degats sur 4 cases." << std::endl;
+    std::cout << "- 3 destroyers, d'une taille de 3 cases, et tirant des obus faisant des degats sur 1 case." << std::endl;
+    std::cout << "- 4 sous-marins, d'une taille de 1 case, et tirant des obus faisant des degats sur 1 case." << std::endl;
+    std::cout << "Un destroyer a la particularite de pouvoir envoyer une fusee eclairante, devoilant une surface de 4*4 sur la grille adverse." << std::endl;
+    std::cout << "Les sous-marins ne peuvent detruire que les sous-marins." << std::endl;
+    std::cout << "A chaque tour, le joueur doit choisir de faire une action :" << std::endl;
+    std::cout << "- Deplacer un bateau d'une case. Il ne peut se deplacer que horizontalement (si il est a l'horizontale), ou verticalement (dans le cas contraire)." << std::endl;
+    std::cout << "- Tourner un navire a 90 degres." << std::endl;
+    std::cout << "- Lancer une attaque avec un bateau selectionne, ou bien une fusee eclairante." << std::endl;
+    std::cout << "La rotation et la translation ne se font que si elles sont possibles. Sinon, vous devez a nouveau faire une action." << std::endl;
+    std::cout << "Pour se deplacer dans les menus, vous devez utiliser les touches Z-Q-S-D." << std::endl;
+    std::cout << "Pour changer de bateau selectionne, vous devez utiliser la touche ESPACE." << std::endl;
+    std::cout << "Pour cibler votre attaque, vous devez utiliser les touches Z-Q-S-D." << std::endl;
+    std::cout << "Pour confirmer un choix, n'importe lequel, la touche ENTREE est utilisee." << std::endl;
+    std::cout << "L'equipe vous souhaite une bonne bataille !" << std::endl;
+    std::cout << " " << std::endl;
+    std::cout << "Appuyez sur 'q' pour lancer la bataille." << std::endl;
+}

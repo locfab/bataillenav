@@ -23,6 +23,7 @@ public:
 
     void sauvegarde();
     void getInfoSauv();
+    void aide();
     bool victoire(Player &p);
     bool boucleDeJeu(bool begin);
     void aleaGrill1();

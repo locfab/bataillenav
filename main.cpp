@@ -100,8 +100,17 @@ int main(int argc, const char * argv[]) {
         else if(choix == 2)
         {
 
+            Partie partie;
+            partie.aide();
+
+
+            while (p->isKeyboardPressed())
+            {
+
+            }
+            p->getInputKey();
+            a=0;
         }
     }
-
     return 0;
 }
