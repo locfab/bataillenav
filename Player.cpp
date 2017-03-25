@@ -2,8 +2,8 @@
 //  Player.cpp
 //  bn
 //
-//  Created by fabrice locqueville on 08/03/2017.
-//  Copyright © 2017 fabrice locqueville. All rights reserved.
+//  Created by PeTheFa on 08/03/2017.
+//  Copyright © 2017 PeTheFa. All rights reserved.
 //
 
 #include "Player.hpp"
@@ -81,7 +81,7 @@ void Player::play(Player adversaire)
             {
                 choix = choixBoat();
             }while(choix < 0 || choix > getVectBoat().size());
-
+            pConsole->gotoLigCol(38,0);
             int sizeAttacks = m_vectBoat[choix]->getSizeAttacks();
             std::pair<int, int> coord = std::make_pair(0,0);
             coord = moveZoneRight(coord, choix, sizeAttacks);
@@ -152,7 +152,7 @@ std::pair<int, int> Player::moveZoneRight(std::pair<int, int> coord, int choix, 
     return coord;
 }
 
-int Player::choixBoat() /// !!! ON NE PEUT PAS CHANGER DE CHOIX DE BATEAU !!!
+int Player::choixBoat()
 {
     int a = 0;
     int boat = 0;
@@ -172,7 +172,7 @@ int Player::choixBoat() /// !!! ON NE PEUT PAS CHANGER DE CHOIX DE BATEAU !!!
     return boat;
 }
 
-bool Player::turnBoat(int y)  /// !!!! DOIT REVENIR A l'ETAPE D'AVANT SI BATEAU DEJA PRESENT !!!!
+bool Player::turnBoat(int y)
 {
     Boat * b = m_vectBoat[y];
     if(!toucher(std::make_pair(b->getCoord().first, b->getCoord().second), !b->getVertical(), b->envergure(), y))
@@ -186,7 +186,7 @@ bool Player::turnBoat(int y)  /// !!!! DOIT REVENIR A l'ETAPE D'AVANT SI BATEAU 
     }
 }
 
-bool Player::moveBoat(int y) /// SE DIRIGE MAL -> LE BATEAU EST BIEN SELECTIONNE ET BOUGE, MAIS N'IMPORTE COMMENT ///
+bool Player::moveBoat(int y)
 {
     std::pair<int, int> b = m_vectBoat[y]->getCoord();
     std::pair<int, int> dir;

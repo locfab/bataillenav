@@ -2,8 +2,8 @@
 //  Partie.cpp
 //  bn
 //
-//  Created by fabrice locqueville on 08/03/2017.
-//  Copyright © 2017 fabrice locqueville. All rights reserved.
+//  Created by PeTheFa on 08/03/2017.
+//  Copyright © 2017 PeTheFa. All rights reserved.
 //
 
 #include "Partie.hpp"

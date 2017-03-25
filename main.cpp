@@ -2,8 +2,8 @@
 //  main.cpp
 //  bn
 //
-//  Created by fabrice locqueville and Quentin Perraudin and l'autre on 08/03/2017.
-//  Copyright © 2017 fabrice locqueville. All rights reserved.
+//  Created by Fabrice locqueville and Quentin Perraudin and Théophile Grimault on 08/03/2017.
+//  Copyright © 2017 PeTheFa. All rights reserved.
 //
 
 #include "Partie.hpp"
