@@ -78,6 +78,7 @@ int main(int argc, const char * argv[]) {
         if(sauv)
             partie.sauvegarde();
     }
+
     else if(choix == 2)
     {
 
