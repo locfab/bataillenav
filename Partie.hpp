@@ -23,10 +23,10 @@ public:
 
     void sauvegarde();
     void getInfoSauv();
+    void aide();
     bool victoire(Player &p);
     bool boucleDeJeu(bool begin);
     void aleaGrill1();
-
     friend std::ostream& operator<<(std::ostream& os, const Partie& p)
        {
            os << p.m_ordi << '\n';

@@ -59,6 +59,9 @@ public:
             return is;
         }
 
+
+
+
 protected:
     std::vector<Boat*> m_vectBoat;
     std::vector<std::vector<char> > m_grille1;
