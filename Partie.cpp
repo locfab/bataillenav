@@ -102,5 +102,5 @@ void Partie::aide()
     std::cout << "Pour confirmer un choix, n'importe lequel, la touche ENTREE est utilisee." << std::endl;
     std::cout << "L'equipe vous souhaite une bonne bataille !" << std::endl;
     std::cout << " " << std::endl;
-    std::cout << "Appuyez sur 'q' pour lancer la bataille." << std::endl;
+    std::cout << "Appuyez sur n'importe quelle touche pour revenir au menu." << std::endl;
 }
