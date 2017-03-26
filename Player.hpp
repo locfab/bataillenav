@@ -31,6 +31,7 @@ public:
     void aleaGrille1();
     void setGrille1();
     void setGrille2(Player adversaire);
+    void setid(int id);
     //bool toucher(std::pair<int, int> coord, bool vectical, int envergure);
     bool toucher(std::pair<int, int> coord, bool vectical, int envergure, int withoutIndice = -1);
     void play(Player adversaire);
@@ -66,5 +67,6 @@ protected:
     std::vector<Boat*> m_vectBoat;
     std::vector<std::vector<char> > m_grille1;
     std::vector<std::vector<char> > m_grille2;
+    int m_id;
 };
 #endif /* Player_hpp */

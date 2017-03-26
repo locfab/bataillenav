@@ -13,6 +13,7 @@
 
 Player::Player()
 {
+    m_id = 0;
     std::vector<char> temp(15, '?');
     for(int i(0); i< 15; i++)
     {
@@ -26,9 +27,9 @@ void Player::play(Player adversaire)
 {
     int choix(0);
     std::vector<std::string> menu;
-    menu.push_back("1 - choix, deplacement");
-    menu.push_back("2 - choix, rotation");
-    menu.push_back("3 - choix, attaque");
+    menu.push_back("1 - Deplacement");
+    menu.push_back("2 - Rotation");
+    menu.push_back("3 - Attaque");
 
     bool opetationEff(false);
     do
@@ -38,6 +39,9 @@ void Player::play(Player adversaire)
         while(a != 13)
         {
             pConsole->gotoLigCol(35,0);
+            pConsole->setColor(COLOR_BLUE);
+            std::cout<<"\t\t\t\t\tJ"<<m_id<<" c'est a vous de jouer"<<std::endl<<std::endl<<std::endl;
+            pConsole->setColor(COLOR_DEFAULT);
             for(int i=0;i<menu.size();i++)
             {
                 if(choix==i)
@@ -108,7 +112,7 @@ void Player::play(Player adversaire)
     system("CLS");
     printGrill(adversaire);
     clock_t t = clock ();
-    while(clock()-t < 2000){}
+    while(clock()-t < 2700){}
 
     //pConsole->gotoLigCol(35,60);
     //std::cout << adversaire.m_vectBoat[0]->getPointsTouches().size() << std::endl;
@@ -195,7 +199,7 @@ bool Player::moveBoat(int y)
         char direction;
         std::vector<std::pair<int, int> > allDir = { {1, 0}, {-1, 0}, {0, 1}, {0, -1} };
         do{
-            pConsole->gotoLigCol(39,0);
+            pConsole->gotoLigCol(45,0);
             std::cout << "Choisir la direction avec 'z', 'q', 's', 'd' ou 'e' pour sortir du menu" << std::endl;
             std::cout << "Direction : ";
             std::cin >> direction;
@@ -231,7 +235,7 @@ void Player::printColorBoat(Boat * b)
         for(int i(x-envergure); i< x+envergure+1; i++)
         {
             pConsole->gotoLigCol(2*i+2, 3*y+2);
-            pConsole->setColor(COLOR_YELLOW);
+            pConsole->setColor(COLOR_BLUE);
             std::cout << b->getType() << b->getType();
 
         }
@@ -241,7 +245,7 @@ void Player::printColorBoat(Boat * b)
         for(int i(y-envergure); i< y+envergure+1; i++)
         {
             pConsole->gotoLigCol(2*x+2, 3*i+2);
-            pConsole->setColor(COLOR_YELLOW);
+            pConsole->setColor(COLOR_BLUE);
             std::cout << b->getType() << b->getType();
         }
     }
@@ -410,6 +414,11 @@ void Player::setGrille2(Player adversaire)
             m_grille2[coordTouche.first][coordTouche.second] = 't';
         }
     }
+}
+
+void Player::setid(int id)
+{
+    m_id = id;
 }
 
 

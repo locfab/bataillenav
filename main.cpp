@@ -82,6 +82,7 @@ int main(int argc, const char * argv[]) {
             partie.boucleDeJeu(true);
 
             partie.sauvegarde();
+            a=0;
         }
         else if(choix == 1)
         {
