@@ -78,26 +78,8 @@ friend std::istream& operator>>(std::istream& is, std::vector<Boat*> &b)
         {
             b.push_back((Croiseur)boatTemp);
         }*/
-        if(boatTemp->m_type == '*')
-        {
-            b.push_back(boatTemp);
-        }
-        if(boatTemp->m_type == 's')
-        {
-            b.push_back(boatTemp);
-        }
-        if(boatTemp->m_type == '+')
-        {
-            b.push_back(boatTemp);
-        }
-        if(boatTemp->m_type == 'o')
-        {
-            b.push_back(boatTemp);
-        }
+        b.push_back(boatTemp);
     }
-    //for(int i(0); i<10; i++)
-      //  std::cout << "faux: " << b[i]->getCoord().first << "," << b[i]->getCoord().second << std::endl;
-        //std::cout << std::endl;
     return is;
 }
 

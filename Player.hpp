@@ -57,6 +57,15 @@ public:
         friend std::istream& operator>>(std::istream& is, Player& p)
         {
             is >> p.m_vectBoat;
+
+            if(p.m_vectBoat[0]->getType()== '*')
+                p.m_vectBoat[0] = (Cuirace*)p.m_vectBoat[0];
+            else if(p.m_vectBoat[0]->getType()== '+')
+                p.m_vectBoat[0] = (Destroyer*)p.m_vectBoat[0];
+            else if(p.m_vectBoat[0]->getType()== 's')
+                p.m_vectBoat[0] = (SousMarin*)p.m_vectBoat[0];
+            else if(p.m_vectBoat[0]->getType()== 'o')
+                p.m_vectBoat[0] = (Croiseur*)p.m_vectBoat[0];
             return is;
         }
 
