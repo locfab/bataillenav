@@ -80,7 +80,6 @@ int main(int argc, const char * argv[]) {
             Partie partie;
             partie.aleaGrill1();
             partie.boucleDeJeu(true);
-
             partie.sauvegarde();
             a=0;
         }

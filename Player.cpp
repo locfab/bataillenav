@@ -23,13 +23,14 @@ Player::Player()
     pConsole = Console::getInstance();
 }
 
-void Player::play(Player adversaire)
+bool Player::play(Player adversaire)
 {
     int choix(0);
     std::vector<std::string> menu;
     menu.push_back("1 - Deplacement");
     menu.push_back("2 - Rotation");
     menu.push_back("3 - Attaque");
+    menu.push_back("4 - Quitter et sauvegarder");
 
     bool opetationEff(false);
     do
@@ -105,6 +106,8 @@ void Player::play(Player adversaire)
                 opetationEff = true;
             }
         }
+        else if(choix == 3)
+            return true;
         if(!opetationEff)
             printGrill(adversaire);
     }while(!opetationEff);
@@ -113,6 +116,7 @@ void Player::play(Player adversaire)
     printGrill(adversaire);
     clock_t t = clock ();
     while(clock()-t < 2700){}
+    return false;
 
     //pConsole->gotoLigCol(35,60);
     //std::cout << adversaire.m_vectBoat[0]->getPointsTouches().size() << std::endl;

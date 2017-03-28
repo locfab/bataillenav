@@ -34,7 +34,7 @@ public:
     void setid(int id);
     //bool toucher(std::pair<int, int> coord, bool vectical, int envergure);
     bool toucher(std::pair<int, int> coord, bool vectical, int envergure, int withoutIndice = -1);
-    void play(Player adversaire);
+    bool play(Player adversaire);
     void playIA();
     bool moveBoat(int y);
     bool turnBoat(int y);
@@ -51,6 +51,7 @@ public:
    friend std::ostream& operator<<(std::ostream& os, const Player& p)
    {
        os << p.m_vectBoat;
+       os << p.m_id << '\n';
        return os;
    }
 
@@ -85,8 +86,8 @@ public:
                 is >> *p.m_vectBoat[i];
             }
             p.m_vectBoat[i]->setType(type);
-
         }
+        is >> p.m_id;
         return is;
     }
 

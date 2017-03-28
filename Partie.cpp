@@ -29,14 +29,16 @@ bool Partie::boucleDeJeu(bool begin)
     ps.push_back(&m_user);
 
     int i(0);
+    bool quittSauv = true;
     while(!victoire(*ps[1-i]))
     {
         ps[i]->printGrill(*ps[1-i]);
         ps[i]->setid(i+1);
-        ps[i]->play(*ps[1-i]);
+        quittSauv = ps[i]->play(*ps[1-i]);
         i++;
         i%=2;
-        return true;
+        if(quittSauv)
+            return true;
     }
     return false;
 }
