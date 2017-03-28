@@ -2,118 +2,312 @@
 //  Player.cpp
 //  bn
 //
-//  Created by fabrice locqueville on 08/03/2017.
-//  Copyright © 2017 fabrice locqueville. All rights reserved.
+//  Created by PeTheFa on 08/03/2017.
+//  Copyright © 2017 PeTheFa. All rights reserved.
 //
 
 #include "Player.hpp"
+#include "Console.hpp"
 #include <cstdlib>
+#include <ctime>
 
 Player::Player()
 {
+    m_id = 0;
     std::vector<char> temp(15, '?');
     for(int i(0); i< 15; i++)
     {
         m_grille1.push_back(temp);
         m_grille2.push_back(temp);
     }
-    this->aleaGrille1();
+    pConsole = Console::getInstance();
 }
 
-void Player::play(Player adversaire)
+bool Player::play(Player adversaire)
 {
-    int choix(-1);
+    int choix(0);
+    std::vector<std::string> menu;
+    menu.push_back("1 - Deplacement");
+    menu.push_back("2 - Rotation");
+    menu.push_back("3 - Attaque");
+    menu.push_back("4 - Quitter et sauvegarder");
+
+    bool opetationEff(false);
     do
     {
-        std::cout << "1 - choix, deplacement" << std::endl;
-        std::cout << "2 - choix, rotation" << std::endl;
-        std::cout << "3 - choix, attaque" << std::endl;
-        std::cout << "faite un choix compris entre 1 et 3" << std::endl;
-
-        std::cin >> choix;
-    }while(choix < 1 || choix > 3);
-
-    if(choix == 1)
-    {
-        do
+        int a = -1;
+        choix = 0;
+        while(a != 13)
         {
-            std::cout << "Choisir de bouger un bateau parmi les " << getVectBoat().size() << std::endl;
+            pConsole->gotoLigCol(35,0);
+            pConsole->setColor(COLOR_BLUE);
+            std::cout<<"\t\t\t\t\tJ"<<m_id<<" c'est a vous de jouer"<<std::endl<<std::endl<<std::endl;
+            pConsole->setColor(COLOR_DEFAULT);
+            for(int i=0;i<menu.size();i++)
+            {
+                if(choix==i)
+                {
+                    pConsole->setColor(COLOR_RED);
+                    std::cout<<menu[i]<<std::endl;
+                    pConsole->setColor(COLOR_DEFAULT);
+                }
+                else
+                    std::cout<<menu[i]<<std::endl;
+            }
+            while(pConsole->isKeyboardPressed())
+                {}
+            a = pConsole->getInputKey();
+            if(a == 's')
+                choix++;
+            if(a == 'z')
+                choix--;
+            choix %= menu.size();
+        }
 
-            std::cin >> choix;
-        }while(choix < 0 || choix > getVectBoat().size());
-        moveBoat(choix);
-    }
-    else if(choix == 2)
-    {
-        do
+        if(choix == 0)
         {
-            std::cout << "Choisir de bouger un bateau parmi les " << getVectBoat().size() << std::endl;
+            do
+            {
+                choix = choixBoat();
+            }while(choix < 0 || choix > getVectBoat().size());
+            opetationEff = moveBoat(choix);
+        }
+        else if(choix == 1)
+        {
+            do
+            {
+                choix = choixBoat();
+            }while(choix < 0 || choix > getVectBoat().size());
+            opetationEff = turnBoat(choix);
+        }
+        else if(choix == 2)
+        {
+            do
+            {
+                choix = choixBoat();
+            }while(choix < 0 || choix > getVectBoat().size());
+            pConsole->gotoLigCol(41,0);
+            int sizeAttacks = m_vectBoat[choix]->getSizeAttacks();
+            std::pair<int, int> coord = std::make_pair(0,0);
+            coord = moveZoneRight(coord, choix, sizeAttacks);
+            if(coord.first != -1 && coord.second != -1) // si pas d'annulation dans moveZoneRight
+            {
+                std::vector<std::pair<int, int> > coords;
+                int x = coord.first;
+                int y = coord.second;
+                for(int i(x); i<x+sizeAttacks; i++)//creation de la zone
+                {
+                    for(int j(y); j<y+sizeAttacks; j++)
+                    {
+                        coords.push_back(std::make_pair(i, j));
+                    }
+                }
+                m_vectBoat[choix]->shotBoat(coords, adversaire.getVectBoat());
+                opetationEff = true;
+            }
+        }
+        else if(choix == 3)
+            return true;
+        if(!opetationEff)
+            printGrill(adversaire);
+    }while(!opetationEff);
 
-            std::cin >> choix;
-        }while(choix < 0 || choix > getVectBoat().size());
-        turnBoat(choix);
-    }
-    else if(choix == 3)
-    {
-        char lettre;
-        int nombre;
-        int boat;
-        do{
-            std::cin >> lettre;
-            std::cin >> nombre;
-            std::cin >> boat;
-
-        }while(lettre < 'a' || lettre > 'o' || nombre < 0 || nombre > 14);
-        m_vectBoat[boat]->shotBoat((int)(lettre-'a'), nombre, adversaire.getVectBoat());
-    }
-
+    system("CLS");
     printGrill(adversaire);
+    clock_t t = clock ();
+    while(clock()-t < 2700){}
+    return false;
+
+    //pConsole->gotoLigCol(35,60);
+    //std::cout << adversaire.m_vectBoat[0]->getPointsTouches().size() << std::endl;
+}
+std::pair<int, int> Player::moveZoneRight(std::pair<int, int> coord, int choix, int sizeAttacks)
+{
+    int a;
+    while(a != 13)
+    {
+        printZoneGrille2(coord, m_vectBoat[choix], sizeAttacks);
+        while(!this->pConsole->isKeyboardPressed())
+            {}
+        a = this->pConsole->getInputKey();
+        if(a==122)//z
+        {
+            coord.first--;
+            if(coord.first<0)
+                coord.first = 0;
+        }
+        if(a==113)//q
+        {
+            coord.second--;
+            if(coord.second < 0)
+                coord.second = 0;
+        }
+        if(a==115)//s
+        {
+            coord.first++;
+            if(coord.first > (15-sizeAttacks))
+                coord.first = (15-sizeAttacks);
+        }
+        if(a==100)//d
+        {
+            coord.second++;
+            if(coord.second > (15-sizeAttacks))
+                coord.second = (15-sizeAttacks);
+        }
+        if(a=='e')
+            return std::make_pair(-1,-1);
+    }
+    return coord;
 }
 
-void Player::turnBoat(int y)
+int Player::choixBoat()
+{
+    int a = 0;
+    int boat = 0;
+    while(a != 13) //entrer
+    {
+        printBoatGrille1(getVectBoat(), getVectBoat()[boat]);
+        while(!this->pConsole->isKeyboardPressed())
+        {}
+        a = this->pConsole->getInputKey();
+        if(a == 32)//espace
+        {
+            boat += 1;
+            boat %= getVectBoat().size();
+            printBoatGrille1(getVectBoat(), getVectBoat()[boat]);
+        }
+    }
+    return boat;
+}
+
+bool Player::turnBoat(int y)
 {
     Boat * b = m_vectBoat[y];
     if(!toucher(std::make_pair(b->getCoord().first, b->getCoord().second), !b->getVertical(), b->envergure(), y))
     {
-        b->setVertical();
+        bool eff = b->setVertical();
+        return eff;
     }
     else
     {
-        std::cout << "Bateau déjà present" << std::endl;
+        return false;
     }
 }
 
-void Player::moveBoat(int y)
+bool Player::moveBoat(int y)
 {
     std::pair<int, int> b = m_vectBoat[y]->getCoord();
     std::pair<int, int> dir;
-    std::cout << b.first << " - " << b.second << std::endl;
     do
     {
         char direction;
         std::vector<std::pair<int, int> > allDir = { {1, 0}, {-1, 0}, {0, 1}, {0, -1} };
         do{
-            std::cout << "choisir la direction avec 'h', 'b', 'g' ou 'd'" << std::endl;
+            pConsole->gotoLigCol(41,0);
+            std::cout << "Choisir la direction avec 'z', 'q', 's', 'd' ou 'e' pour sortir du menu" << std::endl;
+            std::cout << "Direction : ";
             std::cin >> direction;
-        }while(!(direction == 'h' || direction == 'b' || direction == 'g' || direction == 'd'));
+        }while(!(direction == 'z' || direction == 's' || direction == 'q' || direction == 'd' || direction == 'e'));
 
-        if(direction == 'h')
+        if(direction == 'z')
             dir = allDir[1];
-        else if(direction == 'b')
+        else if(direction == 's')
             dir = allDir[0];
-        else if(direction == 'g')
+        else if(direction == 'q')
             dir = allDir[3];
         else if(direction == 'd')
             dir = allDir[2];
+        else if(direction == 'e')
+            return false;
         //std::cout << b.first << " + " << dir.first << " , " << b.second << " + " <<  dir.second << ", ver:  " << m_vectBoat[y]->getVertical() << ", env: " << m_vectBoat[y]->envergure() << ", indice: " <<  y << std::endl;
     }while(toucher(std::make_pair(b.first + dir.first, b.second + dir.second), m_vectBoat[y]->getVertical(), m_vectBoat[y]->envergure(), y));
 
     //std::cout << m_vectBoat[y]->getCoord().first << " - " << m_vectBoat[y]->getCoord().second << std::endl;
     m_vectBoat[y]->setCoord(b.first + dir.first, b.second + dir.second);
+    return true;
     //std::cout << m_vectBoat[y]->getCoord().first << " - " << m_vectBoat[y]->getCoord().second << std::endl;
-
 }
 
+void Player::printColorBoat(Boat * b)
+{
+    int envergure = b->envergure();
+    int x = b->getCoord().first;
+    int y = b->getCoord().second;
+
+    if(b->getVertical())
+    {
+        for(int i(x-envergure); i< x+envergure+1; i++)
+        {
+            pConsole->gotoLigCol(2*i+2, 3*y+2);
+            pConsole->setColor(COLOR_BLUE);
+            std::cout << b->getType() << b->getType();
+
+        }
+    }
+    else
+    {
+        for(int i(y-envergure); i< y+envergure+1; i++)
+        {
+            pConsole->gotoLigCol(2*x+2, 3*i+2);
+            pConsole->setColor(COLOR_BLUE);
+            std::cout << b->getType() << b->getType();
+        }
+    }
+    pConsole->setColor(COLOR_DEFAULT);
+}
+
+void Player::printZoneGrille2(std::pair<int, int> coord, Boat*b, int sizeAttacks)
+{
+    for(int i(0); i<15; i++)
+    {
+        for(int j(0); j<15; j++)
+        {
+            pConsole->gotoLigCol(2*i+2, 3*j+15*3+14);
+            //pConsole->setColor(COLOR_YELLOW);
+            std::cout << ' ' << ' ';
+        }
+    }
+    int x = coord.first;
+    int y = coord.second;
+    for(int i(x); i<x+sizeAttacks; i++)
+    {
+        for(int j(y); j<y+sizeAttacks; j++)
+        {
+            pConsole->gotoLigCol(2*i+2, 3*j+15*3+14);
+            pConsole->setColor(COLOR_YELLOW);
+            std::cout << 'X' << 'X';
+        }
+    }
+    pConsole->setColor(COLOR_DEFAULT);
+}
+
+void Player::printDefaultColorBoat(std::vector<Boat*> bs)
+{
+    for(int j(0); j<bs.size(); j++)
+    {
+        Boat * b = bs[j];
+        int envergure = b->envergure();
+        int x = b->getCoord().first;
+        int y = b->getCoord().second;
+        if(b->getVertical())
+        {
+            for(int i(x-envergure); i< x+envergure+1; i++)
+            {
+                pConsole->gotoLigCol(2*i+2, 3*y+2);
+                std::cout << b->getType() << b->getType();
+
+            }
+        }
+        else
+        {
+            for(int i(y-envergure); i< y+envergure+1; i++)
+            {
+                pConsole->gotoLigCol(2*x+2, 3*i+2);
+                std::cout << b->getType() << b->getType();
+            }
+        }
+    }
+}
 
 std::vector<std::vector<char>> Player::getGrille1()
 {
@@ -132,8 +326,11 @@ std::vector<Boat*> Player::getVectBoat()
 
 void Player::printGrill(Player &adversaire)
 {
+   // pConsole->setColor(COLOR_YELLOW);
     setGrille1();
     setGrille2(adversaire);
+    system("CLS");
+    pConsole->gotoLigCol(0,0);
     std::string espace = "          ";
     std::cout << " |";
     for(int i(0); i<15; i++)
@@ -168,7 +365,7 @@ void Player::printGrill(Player &adversaire)
             {
             //std::cout << "██" << "¦";
             if(m_grille2[i][j] == 't')
-                std::cout << "█" << "█" << "|";
+                std::cout << "X" << "X" << "|";
             else if(m_grille2[i][j] != '?')
                 std::cout << m_grille2[i][j] << m_grille2[i][j] << "¦";
             else
@@ -215,13 +412,17 @@ void Player::setGrille2(Player adversaire)
     std::vector <Boat*> boatsAdv = adversaire.getVectBoat();
     for(int i(0); i< boatsAdv.size(); i++)
     {
-        for(int j(0); j< boatsAdv[i]->getPointsTouches().size(); i++)
+        for(int j(0); j< boatsAdv[i]->getPointsTouches().size(); j++)
         {
             std::pair<int, int> coordTouche = boatsAdv[i]->getPointsTouches()[j];
             m_grille2[coordTouche.first][coordTouche.second] = 't';
-
         }
     }
+}
+
+void Player::setid(int id)
+{
+    m_id = id;
 }
 
 
@@ -252,23 +453,21 @@ void Player::aleaGrille1()
                 }
             }while(toucher(coord, vertical, envergure)); //"objet[i].second-1", c'est l'eloignement du centre
 
-
-
             if(type == '*')
             {
-                m_vectBoat.push_back(new Boat(coord, type, vertical));
+                m_vectBoat.push_back(new Cuirace(coord, type, vertical));
             }
             if(type == 's')
             {
-                m_vectBoat.push_back(new Boat(coord, type, vertical));
+                m_vectBoat.push_back(new SousMarin(coord, type, vertical));
             }
             if(type == '+')
             {
-                m_vectBoat.push_back(new Boat(coord, type, vertical));
+                m_vectBoat.push_back(new Destroyer(coord, type, vertical));
             }
             if(type == 'o')
             {
-                m_vectBoat.push_back(new Boat(coord, type, vertical));
+                m_vectBoat.push_back(new Croiseur(coord, type, vertical));
             }
         }
     }
@@ -276,6 +475,13 @@ void Player::aleaGrille1()
     {
         m_vectBoat[i]->printBoat();
     }*/
+}
+void Player::printBoatGrille1(std::vector<Boat*> bs, Boat * b)
+{
+    printDefaultColorBoat(bs);
+    printColorBoat(b);
+    pConsole->gotoLigCol(3,130);
+    b->printBoat();
 }
 
 
@@ -297,7 +503,7 @@ bool Player::toucher(std::pair<int, int> coord, bool vertical, int envergure, in
                         {
                             if(i==k && coord.second == m_vectBoat[j]->getCoord().second)
                             {
-                                std::cout << " bateau " << j  << " coord "<< i << " - " << coord.second << std::endl;
+                                //std::cout << " bateau " << j  << " coord "<< i << " - " << coord.second << std::endl;
                                 return true;
                             }
 
@@ -311,7 +517,7 @@ bool Player::toucher(std::pair<int, int> coord, bool vertical, int envergure, in
                         {
                             if(i == m_vectBoat[j]->getCoord().first && k == coord.second)
                             {
-                                std::cout << " bateau " << j  << " coord "<< i << " - " << k << std::endl;
+                                //std::cout << " bateau " << j  << " coord "<< i << " - " << k << std::endl;
                                 return true;
                             }
                         }
@@ -336,7 +542,7 @@ bool Player::toucher(std::pair<int, int> coord, bool vertical, int envergure, in
                         {
                             if(i == m_vectBoat[j]->getCoord().second && coord.first == k)
                             {
-                                std::cout << " bateau " << j  << " coord "<< i << " - " << k << std::endl;
+                                //std::cout << " bateau " << j  << " coord "<< i << " - " << k << std::endl;
                                 return true;
                             }
                         }
@@ -349,7 +555,7 @@ bool Player::toucher(std::pair<int, int> coord, bool vertical, int envergure, in
                         {
                             if(i==k && coord.first == m_vectBoat[j]->getCoord().first)
                             {
-                                std::cout << " bateau " << j  << " coord "<< i << " - " << coord.first << std::endl;
+                                //std::cout << " bateau " << j  << " coord "<< i << " - " << coord.first << std::endl;
                                 return true;
                             }
                         }

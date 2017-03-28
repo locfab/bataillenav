@@ -10,9 +10,8 @@
 
 Croiseur::Croiseur()
 {
-    
+
 }
-Croiseur::Croiseur(std::pair<int, int> coord, char type, bool vertical)
+Croiseur::Croiseur(std::pair<int, int> coord, char type, bool vertical): Boat(coord, type, vertical)
 {
-    Boat(coord, type, vertical);
 }

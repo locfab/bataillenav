@@ -11,9 +11,16 @@
 
 Destroyer::Destroyer()
 {
-    
 }
-Destroyer::Destroyer(std::pair<int, int> coord, char type, bool vertical)
+Destroyer::Destroyer(std::pair<int, int> coord, char type, bool vertical): Boat(coord, type, vertical)
 {
-    Boat(coord, type, vertical);
+    m_fusee = true;
+}
+void Destroyer::printBoat()
+{
+    std::cout << "(" << (char)(m_coord.first+ 'a') << "," << m_coord.second << ")" << " - " << m_type << " - ";
+    if(m_fusee)
+        std::cout<< "Fusee : Activable"  <<  "     " << std::endl;
+    else
+        std::cout<< "Fusee : Inactivable"  <<  "   " << std::endl;
 }
