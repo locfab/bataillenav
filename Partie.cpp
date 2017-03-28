@@ -36,7 +36,7 @@ bool Partie::boucleDeJeu(bool begin)
         ps[i]->play(*ps[1-i]);
         i++;
         i%=2;
-        //return true;
+        return true;
     }
     return false;
 }

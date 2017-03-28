@@ -138,6 +138,13 @@ char Boat::getType()
 {
     return m_type;
 }
+void Boat::setType(char type)
+{
+    if(type == '*' || type == '+' || type == 's' || type == 'o')
+    {
+        m_type = type;
+    }
+}
 void Boat::setFusee()
 {
     m_fusee = false;

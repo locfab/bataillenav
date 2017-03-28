@@ -29,7 +29,7 @@ public:
     void aleaGrill1();
     friend std::ostream& operator<<(std::ostream& os, const Partie& p)
        {
-           os << p.m_ordi << '\n';
+           os << p.m_ordi;
            os << p.m_user;
            return os;
        }

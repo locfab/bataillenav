@@ -48,29 +48,47 @@ public:
 
 
 
-       friend std::ostream& operator<<(std::ostream& os, const Player& p)
-       {
-           os << p.m_vectBoat << '\n';
-           return os;
-       }
+   friend std::ostream& operator<<(std::ostream& os, const Player& p)
+   {
+       os << p.m_vectBoat;
+       return os;
+   }
 
-        friend std::istream& operator>>(std::istream& is, Player& p)
+    friend std::istream& operator>>(std::istream& is, Player& p)
+    {
+        int a;
+        is >> a;
+        p.m_vectBoat.resize(a);
+
+        for(int i(0); i<10; i++)
         {
-            is >> p.m_vectBoat;
+            char type;
+            is >> type;
+            if(type == '*')
+            {
+                p.m_vectBoat[i] = new Cuirace;
+                is >> *p.m_vectBoat[i];
+            }
+            else if(type  == 's')
+            {
+                p.m_vectBoat[i] = new SousMarin;
+                is >> *p.m_vectBoat[i];
+            }
+            else if(type  == '+')
+            {
+                p.m_vectBoat[i] = new Destroyer;
+                is >> *p.m_vectBoat[i];
+            }
+            else if(type  == 'o')
+            {
+                p.m_vectBoat[i] = new Croiseur;
+                is >> *p.m_vectBoat[i];
+            }
+            p.m_vectBoat[i]->setType(type);
 
-            if(p.m_vectBoat[0]->getType()== '*')
-                p.m_vectBoat[0] = (Cuirace*)p.m_vectBoat[0];
-            else if(p.m_vectBoat[0]->getType()== '+')
-                p.m_vectBoat[0] = (Destroyer*)p.m_vectBoat[0];
-            else if(p.m_vectBoat[0]->getType()== 's')
-                p.m_vectBoat[0] = (SousMarin*)p.m_vectBoat[0];
-            else if(p.m_vectBoat[0]->getType()== 'o')
-                p.m_vectBoat[0] = (Croiseur*)p.m_vectBoat[0];
-            return is;
         }
-
-
-
+        return is;
+    }
 
 protected:
     std::vector<Boat*> m_vectBoat;
