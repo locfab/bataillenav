@@ -39,6 +39,12 @@ bool Player::play(Player adversaire)
         choix = 0;
         while(a != 13)
         {
+            for(int i(0); i< m_vectBoat.size(); i++)
+            {
+                if(m_vectBoat[i]->getCoule())
+                    printColorBoatCoule(m_vectBoat[i]);
+
+            }
             pConsole->gotoLigCol(35,0);
             pConsole->setColor(COLOR_BLUE);
             std::cout<<"\t\t\t\t\tJ"<<m_id<<" c'est a vous de jouer"<<std::endl<<std::endl<<std::endl;
@@ -102,7 +108,12 @@ bool Player::play(Player adversaire)
                         coords.push_back(std::make_pair(i, j));
                     }
                 }
-                m_vectBoat[choix]->shotBoat(coords, adversaire.getVectBoat());
+                if(sizeAttacks<4)
+                    m_vectBoat[choix]->shotBoat(coords, adversaire.getVectBoat());
+                else if(sizeAttacks == 4)
+                    m_vectBoat[choix]->shotBoat(coords, adversaire.getVectBoat());//temporaire
+                    //m_vectBoat[choix]->seeFusee(coords, adversaire.getVectBoat());
+
                 opetationEff = true;
             }
         }
@@ -127,8 +138,7 @@ std::pair<int, int> Player::moveZoneRight(std::pair<int, int> coord, int choix, 
     while(a != 13)
     {
         printZoneGrille2(coord, m_vectBoat[choix], sizeAttacks);
-        while(!this->pConsole->isKeyboardPressed())
-            {}
+        while(!this->pConsole->isKeyboardPressed()){}
         a = this->pConsole->getInputKey();
         if(a==122)//z
         {
@@ -172,8 +182,12 @@ int Player::choixBoat()
         a = this->pConsole->getInputKey();
         if(a == 32)//espace
         {
-            boat += 1;
-            boat %= getVectBoat().size();
+            do
+            {
+                boat += 1;
+                boat %= getVectBoat().size();
+            }while(getVectBoat()[boat]->getCoule());
+
             printBoatGrille1(getVectBoat(), getVectBoat()[boat]);
         }
     }
@@ -425,8 +439,6 @@ void Player::setid(int id)
     m_id = id;
 }
 
-
-
 void Player::aleaGrille1()
 {
     std::vector<std::pair<char, int> > objet = { {'*', 1}, {'o', 2}, {'+', 3}, {'s', 4} };
@@ -480,8 +492,41 @@ void Player::printBoatGrille1(std::vector<Boat*> bs, Boat * b)
 {
     printDefaultColorBoat(bs);
     printColorBoat(b);
+    for(int i(0); i< m_vectBoat.size(); i++)
+    {
+        if(m_vectBoat[i]->getCoule())
+            printColorBoatCoule(m_vectBoat[i]);
+
+    }
     pConsole->gotoLigCol(3,130);
     b->printBoat();
+}
+void Player::printColorBoatCoule(Boat * b)
+{
+    int envergure = b->envergure();
+    int x = b->getCoord().first;
+    int y = b->getCoord().second;
+
+    if(b->getVertical())
+    {
+        for(int i(x-envergure); i< x+envergure+1; i++)
+        {
+            pConsole->gotoLigCol(2*i+2, 3*y+2);
+            pConsole->setColor(COLOR_RED);
+            std::cout << b->getType() << b->getType();
+
+        }
+    }
+    else
+    {
+        for(int i(y-envergure); i< y+envergure+1; i++)
+        {
+            pConsole->gotoLigCol(2*x+2, 3*i+2);
+            pConsole->setColor(COLOR_RED);
+            std::cout << b->getType() << b->getType();
+        }
+    }
+    pConsole->setColor(COLOR_DEFAULT);
 }
 
 

@@ -40,6 +40,7 @@ public:
     bool turnBoat(int y);
     Console* pConsole = NULL;
     void printColorBoat(Boat * b);
+    void printColorBoatCoule(Boat * b);
     void printDefaultColorBoat(std::vector<Boat*> bs);
     void printZoneGrille2(std::pair<int, int> coord, Boat*b, int sizeAttacks);
     int choixBoat();

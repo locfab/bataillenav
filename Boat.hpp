@@ -36,6 +36,7 @@ public:
     void setFusee();
     void setCoule();
     bool getCoule();
+    void seeFusee(std::vector<std::pair<int, int> > coords, std::vector<Boat*> vectBoatAdvers);
 
 
 friend std::ostream& operator<<(std::ostream& os, const std::vector<Boat*> &b)

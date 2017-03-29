@@ -7,6 +7,8 @@
 //
 
 #include "Boat.hpp"
+#include "Console.hpp"
+#include <ctime>
 
 Boat::Boat()
 {
@@ -49,8 +51,39 @@ void Boat::shotBoat(std::vector<std::pair<int, int> > coords, std::vector<Boat*>
 {
     for(int i(0); i< coords.size(); i++)
         attaque(coords[i], vectBoatAdvers);
-    if(this->m_fusee && coords.size() == 4*4)
-        this->setFusee();
+}
+void Boat::seeFusee(std::vector<std::pair<int, int> > coords, std::vector<Boat*> vectBoatAdvers)
+{
+    Console * p = Console::getInstance();
+    for(int i(0); i< vectBoatAdvers.size(); i++)
+    {
+        for(int j(0); j<vectBoatAdvers[i]->getPointsTouches().size(); j++)
+        {
+            for(int k(0); k< coords.size(); k++)
+            {
+                int x = vectBoatAdvers[i]->getPointsTouches()[j].first;
+                int y = vectBoatAdvers[i]->getPointsTouches()[j].second;
+
+                if(x == coords[k].first)
+                {
+                    if(y == coords[k].second)
+                    {
+                        p->gotoLigCol(50,50);
+                        std::cout << "ddns";
+                        p->gotoLigCol(2*x+2,3*y+45+14);
+                        p->setColor(COLOR_RED);
+                        std::cout << "XX";
+                        p->setColor(COLOR_DEFAULT);
+                        while(0==0){}
+                    }
+                }
+            }
+        }
+    }
+    this->setFusee();
+    clock_t t = clock();
+    while(clock()-t<3000){}
+    while(p->isKeyboardPressed()){p->getInputKey();}
 }
 
 
@@ -181,7 +214,6 @@ void Boat::attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoatAdvers)
                     }
                     if(!present)
                     {
-                        vectBoatAdvers[j]->setTouche();
                         vectBoatAdvers[j]->setPointsTouches(coord);
                         vectBoatAdvers[j]->setCoule();
                     }
@@ -209,7 +241,6 @@ void Boat::attaque(std::pair<int, int> coord, std::vector<Boat*> vectBoatAdvers)
                     }
                     if(!present)
                     {
-                        vectBoatAdvers[j]->setTouche();
                         vectBoatAdvers[j]->setPointsTouches(coord);
                         vectBoatAdvers[j]->setCoule();
                     }
