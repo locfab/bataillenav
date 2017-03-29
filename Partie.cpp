@@ -52,6 +52,7 @@ bool Partie::boucleDeJeu(bool begin)
        // {
 
        // }
+
     }
     return false;
 }

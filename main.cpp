@@ -12,7 +12,8 @@
 #include <vector>
 #include <string>
 
-inline bool exist() {
+inline bool exist()
+{
     std::ifstream myfile;
     bool exist(false);
     myfile.open("binary",std::ios::binary | std::ios::in);
@@ -22,7 +23,8 @@ inline bool exist() {
 }
 
 //test
-int main(int argc, const char * argv[]) {
+int main(int argc, const char * argv[])
+ {
 
     int choix = 0;
     Console* p=Console::getInstance();
@@ -80,7 +82,6 @@ int main(int argc, const char * argv[]) {
             Partie partie;
             partie.aleaGrill1();
             partie.boucleDeJeu(true);
-
             partie.sauvegarde();
             a=0;
         }

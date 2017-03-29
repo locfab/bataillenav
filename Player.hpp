@@ -35,7 +35,7 @@ public:
     int getid();
     //bool toucher(std::pair<int, int> coord, bool vectical, int envergure);
     bool toucher(std::pair<int, int> coord, bool vectical, int envergure, int withoutIndice = -1);
-    void play(Player adversaire);
+    bool play(Player adversaire);
     void playIA();
     bool moveBoat(int y);
     bool turnBoat(int y);
@@ -87,7 +87,6 @@ public:
                 is >> *p.m_vectBoat[i];
             }
             p.m_vectBoat[i]->setType(type);
-
         }
         is >> p.m_id;
         return is;
