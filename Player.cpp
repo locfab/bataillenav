@@ -13,7 +13,7 @@
 
 Player::Player()
 {
-    m_id = 0;
+    m_id = 1;
     std::vector<char> temp(15, '?');
     for(int i(0); i< 15; i++)
     {
@@ -92,10 +92,10 @@ bool Player::play(Player adversaire)
             {
                 choix = choixBoat();
             }while(choix < 0 || choix > getVectBoat().size());
-            pConsole->gotoLigCol(41,0);
+            pConsole->gotoLigCol(42,0);
             int sizeAttacks = m_vectBoat[choix]->getSizeAttacks();
             std::pair<int, int> coord = std::make_pair(0,0);
-            coord = moveZoneRight(coord, choix, sizeAttacks);
+            coord = moveZoneRight(coord, choix, sizeAttacks, adversaire.getVectBoat());
             if(coord.first != -1 && coord.second != -1) // si pas d'annulation dans moveZoneRight
             {
                 std::vector<std::pair<int, int> > coords;
@@ -126,19 +126,33 @@ bool Player::play(Player adversaire)
     system("CLS");
     printGrill(adversaire);
     clock_t t = clock ();
-    while(clock()-t < 2700){}
+    while(clock()-t < 2500){}
     return false;
+
 
     //pConsole->gotoLigCol(35,60);
     //std::cout << adversaire.m_vectBoat[0]->getPointsTouches().size() << std::endl;
 }
-std::pair<int, int> Player::moveZoneRight(std::pair<int, int> coord, int choix, int sizeAttacks)
+std::pair<int, int> Player::moveZoneRight(std::pair<int, int> coord, int choix, int sizeAttacks, std::vector<Boat*> vectAdversaise)
 {
     int a;
     while(a != 13)
     {
+
         printZoneGrille2(coord, m_vectBoat[choix], sizeAttacks);
-        while(!this->pConsole->isKeyboardPressed()){}
+
+        for(int i=0;i<vectAdversaise.size();i++)
+        {
+            for(int j=0; j< vectAdversaise[i]->getPointsTouches().size(); j++)
+            {
+                int x = vectAdversaise[i]->getPointsTouches()[j].first;
+                int y = vectAdversaise[i]->getPointsTouches()[j].second;
+                pConsole->gotoLigCol(2*x+2,3*y+45+14);
+                std::cout << "XX";
+            }
+        }
+        while(!this->pConsole->isKeyboardPressed())
+            {}
         a = this->pConsole->getInputKey();
         if(a==122)//z
         {
@@ -217,7 +231,7 @@ bool Player::moveBoat(int y)
         char direction;
         std::vector<std::pair<int, int> > allDir = { {1, 0}, {-1, 0}, {0, 1}, {0, -1} };
         do{
-            pConsole->gotoLigCol(41,0);
+            pConsole->gotoLigCol(42,0);
             std::cout << "Choisir la direction avec 'z', 'q', 's', 'd' ou 'e' pour sortir du menu" << std::endl;
             std::cout << "Direction : ";
             std::cin >> direction;
@@ -437,6 +451,11 @@ void Player::setGrille2(Player adversaire)
 void Player::setid(int id)
 {
     m_id = id;
+}
+
+int Player::getid()
+{
+    return m_id;
 }
 
 void Player::aleaGrille1()

@@ -10,6 +10,7 @@
 #define destroyer_hpp
 
 #include "Boat.hpp"
+#include "Console.hpp"
 
 class Destroyer: public Boat
 {
@@ -17,6 +18,7 @@ public:
     Destroyer();
     Destroyer(std::pair<int, int> coord, char type, bool vertical);
     void printBoat();
+    Console* pConsole = NULL;
 
     friend std::istream& operator>>(std::istream& is, Destroyer &b)
 {

@@ -12,6 +12,7 @@
 
 Boat::Boat()
 {
+    pConsole = Console::getInstance();
 }
 Boat::Boat(std::pair<int, int> coord, char type, bool vertical)
 {
@@ -130,7 +131,7 @@ int Boat::getSizeAttacks()
 {
     if(this->m_fusee)
     {
-        std::cout << "Voulez-vous utiliser la fusee? Tapez 'y' si oui - tapez une autre touche si non." << std::endl;
+        std::cout <<std::endl<< "Voulez-vous utiliser la fusee? Tapez 'y' si oui - tapez une autre touche si non." << std::endl;
         char choix;
         std::cin >> choix;
         if(choix == 'y')
@@ -154,6 +155,13 @@ void Boat::setPointsTouches(std::pair<int, int> coord)
     m_pointsTouches.push_back(coord);
 }
 
+
+
+
+
+
+
+
 std::vector<std::pair<int, int> > Boat::getPointsTouches()
 {
     return m_pointsTouches;
@@ -165,7 +173,16 @@ bool Boat::getVertical()
 }
 void Boat::printBoat()
 {
-    std::cout << "(" << (char)(m_coord.first+ 'a') << "," << m_coord.second << ")" << " - " << m_type << "                    " << m_coule;
+    pConsole->gotoLigCol(4,130);
+    std::cout<<"                             ";
+    pConsole->gotoLigCol(6,130);
+    std::cout<<"                             ";
+    pConsole->gotoLigCol(4,130);
+    std::cout << "(" << (char)(m_coord.first+ 'a') << "," << m_coord.second << ")" << " - ";
+    if(m_type == '*'){std::cout << " Cuirasse";}
+    if(m_type == '+'){std::cout << " Destroyer";}
+    if(m_type == 's'){std::cout << " Sous-marin";}
+    if(m_type == 'o'){std::cout << " Croiseur";}
 }
 char Boat::getType()
 {

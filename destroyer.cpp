@@ -11,6 +11,7 @@
 
 Destroyer::Destroyer()
 {
+    pConsole = Console::getInstance();
 }
 Destroyer::Destroyer(std::pair<int, int> coord, char type, bool vertical): Boat(coord, type, vertical)
 {
@@ -18,9 +19,26 @@ Destroyer::Destroyer(std::pair<int, int> coord, char type, bool vertical): Boat(
 }
 void Destroyer::printBoat()
 {
-    std::cout << "(" << (char)(m_coord.first+ 'a') << "," << m_coord.second << ")" << " - " << m_type << " - ";
+    pConsole->gotoLigCol(4,130);
+    std::cout<<"                             ";
+    pConsole->gotoLigCol(4,130);
+    std::cout << "(" << (char)(m_coord.first+ 'a') << "," << m_coord.second << ")" << " - " << " Destroyer"<< std::endl<< std::endl;
+    //pConsole->gotoLigCol(5,131);
+    //std::cout<<"                             ";
+    pConsole->gotoLigCol(6,130);
     if(m_fusee)
+    {
+        pConsole->setColor(COLOR_GREEN);
         std::cout<< "Fusee : Activable"  <<  "     " << std::endl;
+    }
+
     else
+    {
+        pConsole->setColor(COLOR_RED);
         std::cout<< "Fusee : Inactivable"  <<  "   " << std::endl;
+    }
+
+
+    pConsole->setColor(COLOR_DEFAULT);
+
 }
