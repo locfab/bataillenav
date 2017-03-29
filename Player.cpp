@@ -231,7 +231,7 @@ bool Player::moveBoat(int y)
         char direction;
         std::vector<std::pair<int, int> > allDir = { {1, 0}, {-1, 0}, {0, 1}, {0, -1} };
         do{
-            pConsole->gotoLigCol(42,0);
+            pConsole->gotoLigCol(43,0);
             std::cout << "Choisir la direction avec 'z', 'q', 's', 'd' ou 'e' pour sortir du menu" << std::endl;
             std::cout << "Direction : ";
             std::cin >> direction;
