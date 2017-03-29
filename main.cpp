@@ -35,9 +35,9 @@ int main(int argc, const char * argv[])
     menu.push_back("3 - Aide");
     menu.push_back("4 - Quitter");
 
+    int a;
     while(choix != 3)
     {
-        int a;
         while(a != 13)
         {
             system("CLS");
@@ -94,7 +94,10 @@ int main(int argc, const char * argv[])
                 partie.getInfoSauv();
                 sauv = partie.boucleDeJeu(true);
                 if(sauv)
+                {
                     partie.sauvegarde();
+                    a = 0;
+                }
             }
             else
                 a=0;

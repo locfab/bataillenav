@@ -23,7 +23,7 @@ Partie::~Partie()
 bool Partie::boucleDeJeu(bool begin)
 {
     Console *p= Console::getInstance();
-    int sauv = false;
+    bool sauv = false;
     std::vector<Player*> ps;
     ps.push_back(&m_ordi);
     ps.push_back(&m_user);
@@ -43,16 +43,12 @@ bool Partie::boucleDeJeu(bool begin)
     while(!victoire(*ps[1-i]))
     {
         ps[i]->printGrill(*ps[1-i]);
-      //  ps[i]->setid(i+1);
-        ps[i]->play(*ps[1-i]);
+        sauv = ps[i]->play(*ps[1-i]);
         i++;
         i%=2;
         ps[i]->setid(i+1);
-       // if(i==0)
-       // {
-
-       // }
-
+        if(sauv)
+            return true;
     }
     return false;
 }
