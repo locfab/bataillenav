@@ -29,14 +29,29 @@ bool Partie::boucleDeJeu(bool begin)
     ps.push_back(&m_user);
 
     int i(0);
+    if(ps[0]->getid() == 2)
+    {
+        i = 1;
+    }
+
+    else
+    {
+        i = 0;
+    }
+
+
     while(!victoire(*ps[1-i]))
     {
         ps[i]->printGrill(*ps[1-i]);
-        ps[i]->setid(i+1);
+      //  ps[i]->setid(i+1);
         ps[i]->play(*ps[1-i]);
         i++;
         i%=2;
-        return true;
+        ps[i]->setid(i+1);
+       // if(i==0)
+       // {
+
+       // }
     }
     return false;
 }

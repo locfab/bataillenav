@@ -8,6 +8,7 @@
 
 #ifndef Boat_hpp
 #define Boat_hpp
+#include "Console.hpp"
 
 #include <iostream>
 #include <vector>
@@ -36,6 +37,7 @@ public:
     void setFusee();
     void setCoule();
     bool getCoule();
+    Console* pConsole = NULL;
 
 
 friend std::ostream& operator<<(std::ostream& os, const std::vector<Boat*> &b)

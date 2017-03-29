@@ -32,6 +32,7 @@ public:
     void setGrille1();
     void setGrille2(Player adversaire);
     void setid(int id);
+    int getid();
     //bool toucher(std::pair<int, int> coord, bool vectical, int envergure);
     bool toucher(std::pair<int, int> coord, bool vectical, int envergure, int withoutIndice = -1);
     void play(Player adversaire);
@@ -43,7 +44,7 @@ public:
     void printDefaultColorBoat(std::vector<Boat*> bs);
     void printZoneGrille2(std::pair<int, int> coord, Boat*b, int sizeAttacks);
     int choixBoat();
-    std::pair<int, int> moveZoneRight(std::pair<int, int> coord, int choix, int sizeAttacks);
+    std::pair<int, int> moveZoneRight(std::pair<int, int> coord, int choix, int sizeAttacks, std::vector<Boat*> vectAdversaise);
 
 
 
@@ -51,6 +52,7 @@ public:
    friend std::ostream& operator<<(std::ostream& os, const Player& p)
    {
        os << p.m_vectBoat;
+       os << p.m_id  << "\n";
        return os;
    }
 
@@ -87,6 +89,7 @@ public:
             p.m_vectBoat[i]->setType(type);
 
         }
+        is >> p.m_id;
         return is;
     }
 
